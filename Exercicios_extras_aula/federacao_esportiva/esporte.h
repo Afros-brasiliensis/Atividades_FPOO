@@ -1,4 +1,4 @@
-	#pragma once
+#pragma once
 
 #include <string>
 #include <vector>
@@ -27,7 +27,8 @@ public:
 	//Getters
 	string getNome();
 	string getModalidades();
-	
+
 	// Métodos
 	void imprime_info();
 
+};
