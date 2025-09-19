@@ -1,4 +1,4 @@
-#include "exercicio_2.h"
+#include "pessoas.h"
 
 int main() {
 	Pessoa p1, p2, p3;

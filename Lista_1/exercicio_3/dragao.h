@@ -19,6 +19,8 @@ public:
 
 	//Construtor
 	Dragao();
+	//Construtor com parâmetros
+	Dragao(string nome, string cor, string poder, string reino, string tipo, int idade);
 	//Destrutor
 	~Dragao();
 

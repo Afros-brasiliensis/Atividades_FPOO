@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{54efffa1-1e98-494a-92d8-419eddb3ed9b}</ProjectGuid>
-    <RootNamespace>exercicio3</RootNamespace>
+    <ProjectGuid>{50d39069-818e-4259-8fbe-169a8480783c}</ProjectGuid>
+    <RootNamespace>TrabalhoGA</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -123,11 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="dragao.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="dragao.cpp" />
-    <ClCompile Include="maindragao.cpp" />
+    <ClCompile Include="Trabalho_GA.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
