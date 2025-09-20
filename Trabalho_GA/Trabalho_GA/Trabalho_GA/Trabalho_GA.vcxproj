@@ -126,6 +126,9 @@
     <ClCompile Include="Trabalho_GA.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Inimigo.h" />
+    <ClInclude Include="Inventario.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Personagem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

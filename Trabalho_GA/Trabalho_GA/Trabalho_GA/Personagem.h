@@ -36,9 +36,7 @@ public:
 
 	//Metodos de combate e inventario
 	void testarSorte();
-	void atacar(Personagem& alvo);
-	void usarProvisao();
-	void adicionarItem(Item* item);
+	
 
 
 };
