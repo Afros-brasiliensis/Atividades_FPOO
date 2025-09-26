@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <iostream>
 
 using namespace std;
@@ -11,24 +10,19 @@ private:
 
 	// Atributos
 	string nome;
-	string modalidades;
+	string modalidade;
 
 public:
 
 	// Construtor padrão
 	Esporte();
+	//Construtor com parametros
+	Esporte(string nome, string modalidade);
 	// Destrutor
 	~Esporte();
 
-	//Setters 
-	void setNome(string nome);
-	void setModalidades(string modalidades);
-
 	//Getters
 	string getNome();
-	string getModalidades();
-
-	// Métodos
-	void imprime_info();
+	string getModalidade();
 
 };

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <iostream>
 
 using namespace std;
@@ -14,15 +13,16 @@ private:
 public:
 	// Construtor padrão
 	Atleta();
+	//Construtor com parâmetros
+	Atleta(string nome, int idade);
 	// Destrutor
 	~Atleta();
 	//Setters 
 	void setNome(string nome);
-	void setIdade(int idade);
 	//Getters
 	string getNome();
 	int getIdade();
 	// Métodos
 	void imprime_info();
 
-}
+};

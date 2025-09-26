@@ -13,7 +13,6 @@ class Item {
 		bool equipado;
 		char tipo; //arma, armadura, consumivel, artefato - w = arma, a = armadura, c = consumivel, art = artefato
 		char raridade; //comum, raro, épico, lendário, mítico
-		bool 
 	//Construtor
 		Item();
 		//Construtor com parametros

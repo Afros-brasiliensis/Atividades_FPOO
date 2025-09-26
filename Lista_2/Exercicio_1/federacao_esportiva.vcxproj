@@ -123,6 +123,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="atleta.cpp" />
+    <ClCompile Include="equipe.cpp" />
     <ClCompile Include="esporte.cpp" />
     <ClCompile Include="main_federacao_esportiva.cpp" />
   </ItemGroup>

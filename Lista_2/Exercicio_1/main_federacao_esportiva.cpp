@@ -1,11 +1,35 @@
-// federacao_esportiva.cpp : Este arquivo contém a função 'main'. A execução do programa começa e termina ali.
-//
-
+#include "equipe.h"
+#include "esporte.h"
+#include "atleta.h"
+#include <string>
 #include <iostream>
+
+using namespace std;
 
 int main()
 {
     std::cout << "Hello World!\n";
+
+	Esporte volei("Volei", "Coletivo");
+	Equipe time("SESI-SP", volei);
+
+	Atleta a1("Afros", 25);
+	Atleta a2("Murilo", 30);
+	Atleta a3("Lucarelli", 28);
+	Atleta a4("Lucao", 26);
+
+	time.adicionarAtleta(0, &a1);
+	time.adicionarAtleta(1, &a2);
+	time.adicionarAtleta(2, &a3);
+	time.adicionarAtleta(3, &a4);
+
+	time.imprime_info();
+
+	time.getAtletas(1)->setNome("Murilo Endres");
+	cout << "\nDepois da alteração:\n" << endl;
+	time.imprime_info();
+
+	return 0;
 }
 
 // Executar programa: Ctrl + F5 ou Menu Depurar > Iniciar Sem Depuração
