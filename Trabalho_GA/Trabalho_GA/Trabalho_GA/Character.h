@@ -12,7 +12,7 @@ private:
 	//Atributos
 	int habilidade;
 	int energia;
-	int sorte;
+	int sortea;
 	
 
 public:
