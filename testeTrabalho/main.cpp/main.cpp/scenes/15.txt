@@ -1,0 +1,5 @@
+#15
+Você adentra a sala principal da fortaleza. É uma câmara vasta, vazia, exceto por uma estátua de mármore de uma figura Nórdica. A estátua segura uma caixa de madeira escura. Você conseguiu chegar ao seu objetivo.
+
+DECISÃO 10: O que você faz com a caixa?
+#17: Abrir a caixa e descobrir o que há dentro (Final da Aventura).

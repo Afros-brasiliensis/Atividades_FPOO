@@ -1,0 +1,8 @@
+#2
+Você segue o caminho sombrio. O vento uiva entre as árvores e o cheiro de neve está no ar. Você tropeça no corpo congelado de um antigo guerreiro e encontra uma adaga com símbolos rúnicos.
+
+I: Adaga Rúnica;w;1;1;1
+
+DECISÃO 2: O que fazer agora?
+#4: Continuar o caminho, adentrando mais fundo na floresta.
+#3: Voltar e pegar o caminho largo.

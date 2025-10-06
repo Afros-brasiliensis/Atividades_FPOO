@@ -1,0 +1,6 @@
+#11
+O caminho no penhasco termina em uma grande porta de pedra que leva a uma fortaleza. Um pequeno buraco lateral parece uma passagem mais discreta.
+
+DECISÃO 7: O que você faz?
+#13: Tentar arrombar a grande porta (Pode ser barulhento).
+#14: Tentar entrar pelo buraco lateral (Pode ser uma emboscada).

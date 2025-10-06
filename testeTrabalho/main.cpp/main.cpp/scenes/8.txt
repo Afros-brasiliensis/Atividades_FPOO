@@ -1,0 +1,16 @@
+#8
+Você segue o caminho principal. Em uma curva, o ar congela e surge um Jotun Menor, uma criatura elemental de gelo. O combate é inevitável.
+
+N: Jotun Menor
+M: S
+H: 12
+S: 10
+E: 18
+T: 75
+P: 1
+I:
+11:12
+
+DECISÃO 5: Atacar, Usar Magia (se tiver) ou Fugir?
+- Lutar: Inicia a batalha (sucesso: 11, derrota: 12).
+- Fugir: Você tenta a sorte, decremente Sorte. Se falhar, vá para cena 10. Se tiver sucesso, vá para cena 11.

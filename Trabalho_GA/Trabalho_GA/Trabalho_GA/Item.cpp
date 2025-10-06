@@ -1,6 +1,4 @@
 #include "Item.h"
-#include <sstream>
-using namespace std; 
 
 //Construtor padrão, todo mundo zerado
 Item::Item() : nome(""), tipo(ItemType::COMUM), usavelEmCombate(false), ForcaAtaque(0), BonusDano(0) {
@@ -36,13 +34,24 @@ ItemType Item::charToType(char c) {
 
 string Item::toString() const {
 
-	ostringstream out;
-	out << nome << " | " << typeToString(tipo) " | ";
-	if (ForcaAtaque != 0)
-		out << "Forca de Ataque: " << (ForcaAtaque > 0 ? "+" : "") << ForcaAtaque;
-	if (BonusDano != 0)
-		out << " | Bonus de Dano: " << (BonusDano > 0 ? "+" : "") << BonusDano;
-	if (usavelEmCombate)
-		out << " | Usavel em Combate";
-	return out.str();
+	string desc = nome	+ " [" + typeToString(tipo) + "]";
+
+	if (ForcaAtaque != 0) {
+		desc += " | FA: ";
+		desc += ( ForcaAtaque > 0 ? "+" : "");
+		desc += to_string(ForcaAtaque);
+	}
+
+	if (BonusDano != 0) {
+		desc += " | Dano: ";
+		desc += (BonusDano > 0 ? "+" : "");
+		desc += to_string(BonusDano);
+	}
+
+	if (usavelEmCombate) {
+		desc += " | (Usável em combate)";
+	}
+
+	return desc;
+
 }

@@ -1,0 +1,15 @@
+#13
+Você empurra a grande porta de pedra. Ela se abre com um rangido alto, alertando quem está lá dentro. Um Guerreiro de Elite, com armadura completa, está à sua espera.
+
+N: Guerreiro de Elite
+M: S
+H: 14
+S: 10
+E: 20
+T: 150
+P: 1
+I: Elmo de Ferro;r;0;1;1
+15:16
+
+DECISÃO 8: Entrar em combate?
+- Lutar: Inicia a batalha (sucesso: 15, derrota: 16).

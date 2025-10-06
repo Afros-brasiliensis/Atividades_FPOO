@@ -1,0 +1,6 @@
+#14
+Você se espreme pelo buraco lateral. É um teste de destreza.
+DECISÃO 9: Testar Habilidade ou forçar a passagem?
+
+- Se Habilidade for bem-sucedida: Você passa com cautela. Vá para cena 15.
+- Se Habilidade falhar: Você fica preso e se machuca, perdendo 2 de Energia. Vá para cena 10 (Volta para o caminho do Penhasco com dano).

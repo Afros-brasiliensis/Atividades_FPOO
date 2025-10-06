@@ -1,0 +1,8 @@
+#12
+O Jotun Menor ruge, envolvendo-o em uma rajada de gelo e vento cortante. Seus ossos doem e seus movimentos ficam lentos. Você não consegue mais se defender, e a Energia esvai-se rapidamente.
+
+Você foi derrotado. O penhasco se torna seu túmulo.
+
+FIM DE JOGO.
+
+#1: Recomeçar a jornada (Voltar para o início).

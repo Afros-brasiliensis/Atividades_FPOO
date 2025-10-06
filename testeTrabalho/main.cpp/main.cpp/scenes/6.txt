@@ -1,0 +1,6 @@
+#6
+Você sai da floresta e vê um vasto penhasco rochoso sobre o mar agitado. À sua frente, há um caminho sinuoso que leva para o alto. Você vê uma saliência estranha na lateral do penhasco que pode ter algo de valor.
+
+DECISÃO 3: O que você faz?
+#7: Examinar a saliência estranha na rocha.
+#8: Ignorar e seguir o caminho principal.

@@ -1,0 +1,6 @@
+#1
+Você é um semideus atormentado, em uma terra Nórdica fria e silenciosa. Você caminha por uma floresta densa quando a trilha se divide em duas: um caminho estreito e sombrio à esquerda, e um caminho mais largo e danificado à direita.
+
+DECISÃO 1: Qual trilha você segue?
+#2: Seguir o caminho estreito e sombrio (O caminho parece mais rápido, mas perigoso).
+#3: Seguir o caminho largo e danificado (Pode ter perigos, mas oferece mais espaço de manobra).

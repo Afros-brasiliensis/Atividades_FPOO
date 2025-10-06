@@ -1,0 +1,8 @@
+#5
+O Draugr Antigo é mais resiliente do que aparenta. Seus ataques são lentos e previsíveis e a criatura o acerta com força, quebrando sua armadura e sua vontade. Sua Energia chega a zero.
+
+A escuridão o envolve. Seu corpo de semideus cai na neve, derrotado por uma criatura de segunda categoria.
+
+FIM DE JOGO.
+
+#1: Recomeçar a jornada (Voltar para o início).
