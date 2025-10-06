@@ -4,18 +4,21 @@
 
 using namespace std; 
 
-class Item {
+enum class ItemType {COMUM, WEAPON, ARMADURA, MAGIA, CONSUMIVEL};
 
-	private: 
+struct Item {
 
 		//Atributos
 		string nome;
-		bool equipado;
-		char tipo; //arma, armadura, consumivel, artefato - w = arma, a = armadura, c = consumivel, art = artefato
-		char raridade; //comum, raro, épico, lendário, mítico
-	//Construtor
-		Item();
-		//Construtor com parametros
-		Item(string n, bool equipado, char tipo, char raridade);
+		ItemType tipo;
+		bool usavelEmCombate;
+		int ForcaAtaque; 
+		int BonusDano;
 
+		Item(); //Construtor sem parâmetros
+		Item(const string &n, ItemType t, bool usavel, int fa = 0, int dmg = 0);//Construtor com parametros
+
+		static string typeToString(ItemType t); //Converte ItemType para string
+		static ItemType charToType(char c); //Converte char para ItemType
+		string toString() const;
 }
