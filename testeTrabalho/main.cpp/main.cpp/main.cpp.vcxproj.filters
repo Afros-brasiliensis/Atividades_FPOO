@@ -27,9 +27,6 @@
     <ClCompile Include="Inventario.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
     <ClCompile Include="Monstro.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
@@ -50,7 +47,7 @@
     <ClInclude Include="Item.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="Personagem.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="Monstro.h">

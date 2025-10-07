@@ -1,28 +1,39 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "Item.h"
 #include "Monstro.h"
-#include "Player.h"
+using namespace std;
 
-// Cada arquivo de cena (.txt) é lido e interpretado por esta classe
-class Scene {
+class Cena {
 public:
-    Scene();
+	Cena();
+	~Cena();
+	
+	bool carregar(int numeroCena); //para carregar a cena a partir de um arquivo
 
-    int id;
-    std::string texto;
-    std::vector<int> opcoesIds;  // IDs das próximas cenas
-    bool is_monster;             // define se é cena de combate
-    Monster monster;             // se for cena de monstro
-    Item item;                   // item encontrado, se houver
-    int next_win;                // próxima cena em caso de vitória
-    int next_lose;               // próxima cena em caso de derrota
+	//Métodos para obter as informações da cena
+	string getTexto(); 
+	bool isCenaDeCombate();
+	Monstro* getInimigo(); 
+	int getCenaVitoria(); //retornam o número da próxima cena em caso de vitória ou derrota
+	int getCenaDerrota();
+	Item* getItem(); //retorna o item encontrado na cena se tiver
 
-    bool carregarCenaFromFile(int id);
-    void mostrarCena() const;
-    int lerEscolha() const;                   // retorna -1 para inventário
-    int executarEscolha(int escolhaIndex, Player& player);
+	//Escolhas
+	const vector<string>& getTextoEscolhas();
+	const vector<int>& getCenasDestino(); 
 
-    int nextOnWin() const { return next_win; }
-    int nextOnLose() const { return next_lose; }
+private: 
+
+	string textoPrincipal;
+	Item* item; //os ponteiros nesse caso servem para entender o que há ou não na cena
+	Monstro* inimigo; //exemplo: se o ponteiro for nulo, não há um inimigo na cena e ela é de exploração
+
+	vector<string> textoEscolhas;
+	vector<int> cenasDestino; //números das cenas destino para cada escolha
+
+	int cenaVitoria; //número da cena para onde ir em caso de vitória no combate
+	int cenaDerrota;
+
 };

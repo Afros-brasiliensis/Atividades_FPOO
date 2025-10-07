@@ -1,149 +1,227 @@
 #include "Game.h"
 #include <iostream>
-#include <limits>
+#include <fstream>
+#include <ctime>
+#include <cstdlib>
 
-Game::Game() {}
+using namespace std;
 
-static int readInt() {
-    int x;
-    while (!(std::cin >> x)) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << "Entrada inválida. Digite novamente: ";
-    }
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    return x;
+Jogo::Jogo() : jogador(nullptr), numeroCenaAtual(0) {
+	// Inicializa o gerador de números aleatórios
+	srand(time(nullptr)) ;
 }
 
-void Game::run() {
-    menuInicial();
+Jogo::~Jogo() {
+	delete jogador;
 }
 
-void Game::menuInicial() {
-    while (true) {
-        std::cout << "\n=== InteractiveBook ===\n";
-        std::cout << "1. Novo Jogo\n";
-        std::cout << "2. Carregar Jogo\n";
-        std::cout << "3. Créditos\n";
-        std::cout << "4. Sair\n";
-        std::cout << "Escolha: ";
-
-        int opt = readInt();
-
-        if (opt == 1) {
-            novoJogo();
-        }
-        else if (opt == 2) {
-            carregarJogo();
-        }
-        else if (opt == 3) {
-            credits();
-        }
-        else if (opt == 4) {
-            std::cout << "Encerrando o jogo...\n";
-            break;
-        }
-        else {
-            std::cout << "Opção inválida.\n";
-        }
-    }
+void Jogo::iniciar() {
+	//Tenta carregar um jogo salvo
+	if (!carregar()) {
+		//Se nao conseguir, mostra a tela de abertura
+		telaDeAbertura();
+	}
 }
 
-void Game::novoJogo() {
-    std::cout << "\nDigite o nome do personagem: ";
-    std::string nome;
-    std::getline(std::cin, nome);
+void Jogo::telaDeAbertura() {
+	int escolha = 0;
+	while (escolha != 4) {
+		cout << "==============================" << endl;
+		cout << "      AVENTURA FANTASTICA     " << endl;
+		cout << "==============================" << endl;
+		cout << "1. Novo Jogo" << endl;
+		cout << "2. Carregar Jogo Salvo" << endl;
+		cout << "3. Creditos" << endl;
+		cout << "4. Sair" << endl;
+		cout << "Escolha uma opcao: ";
+		cin >> escolha;
+		switch (escolha) {
+		case 1:
+			criarNovoJogo();
+			telaPrincipalDoJogo();
+			break;
+		case 2:
+			if (carregar()) {
+				telaPrincipalDoJogo();
+			}
+			else {
+				cout << "Nenhum jogo salvo encontrado." << endl;
+			}
+			break;
+		case 3:
+			exibirCreditos();
+			break;
+		case 4:
+			cout << "Saindo do jogo. Ate a proxima!" << endl;
+			break;
+		default:
+			cout << "Opcao invalida. Tente novamente." << endl;
+		}
+	}
+}	
 
-    player = Player(nome);
+void Jogo::criarNovoJogo() {
+	cout << "\n -- Criando um Novo Jogo -- \n" << endl;
+	jogador = new Personagem();
 
-    std::cout << "Escolha o modo de criação:\n";
-    std::cout << "1. Distribuir pontos manualmente\n";
-    std::cout << "2. Aleatório\n";
-    std::cout << "Escolha: ";
-    int modo = readInt();
+	telaDeInventario(true);
 
-    if (modo == 1) player.distribuirPontosManual();
-    else player.distribuirPontosAleatorio();
+	numeroCenaAtual = 1; //Comeca na cena 1
+	cenasVisitadas.push_back(numeroCenaAtual);
 
-    carregarCena(1);
+	telaPrincipalDoJogo();
 
-    while (player.estaVivo()) {
-        currentScene.mostrarCena();
-
-        if (currentScene.is_monster) {
-            // batalha
-            Battle batalha;
-            int resultado = batalha.iniciarBatalha(player, currentScene.monster);
-
-            if (resultado == 1) {
-                carregarCena(currentScene.nextOnWin());
-            }
-            else {
-                if (!player.estaVivo()) {
-                    std::cout << "Você morreu! Game over.\n";
-                    break;
-                }
-                carregarCena(currentScene.nextOnLose());
-            }
-        }
-        else {
-            int escolha = currentScene.lerEscolha();
-
-            if (escolha == -1) { // inventário
-                player.mostrarInventario();
-                std::cout << "Deseja salvar o jogo? (1 = sim, 0 = não): ";
-                int salvar;
-                salvar = readInt();
-                if (salvar == 1) {
-                    saver.salvar(player, currentScene.id, "data/saves/save1.txt");
-                }
-                continue;
-            }
-
-            int proxima = currentScene.executarEscolha(escolha, player);
-            if (proxima <= 0) {
-                std::cout << "Fim da história.\n";
-                break;
-            }
-
-            saver.salvar(player, currentScene.id, "data/saves/save1.txt");
-            carregarCena(proxima);
-        }
-    }
-
-    std::cout << "Jogo encerrado.\n";
 }
 
-void Game::carregarJogo() {
-    std::cout << "\n=== Carregar Jogo ===\n";
-    if (!saver.listarSaves()) {
-        std::cout << "Nenhum save encontrado.\n";
-        return;
-    }
+void Jogo::carregarJogoSalvo() {
+	cout << "\n -- Carregando Jogo Salvo -- \n" << endl;
+	if (carregar()) {
+		cout << "Jogo carregado com sucesso!" << endl;
 
-    std::cout << "Digite o nome do save (ex: save1.txt): ";
-    std::string fname;
-    std::getline(std::cin, fname);
+		telaDeInventario(false);
 
-    int cena = 1;
-    if (saver.carregar(player, cena, "data/saves/" + fname)) {
-        std::cout << "Save carregado!\n";
-        carregarCena(cena);
-    }
-    else {
-        std::cout << "Falha ao carregar o save.\n";
-    }
+		telaPrincipalDoJogo();
+	}
+	else {
+		cout << "Nenhum jogo salvo encontrado." << endl;
+	}
 }
 
-void Game::credits() {
-    std::cout << "\n=== Créditos ===\n";
-    std::cout << "Trabalho Prático Grau A - Programação Orientada a Objetos\n";
-    std::cout << "Desenvolvido por: Athos Kolling\n";
-    std::cout << "Baseado na série 'Aventuras Fantásticas'\n";
+void Jogo::exibirCreditos() {
+	cout << "\n -- Creditos -- \n" << endl;
+	cout << "Desenvolvido por:" << endl;
+	cout << "Athos Nunes Kolling" << endl;
+	cout << "Gustavo Sbardelotto Rezende" << endl;
+	cout << "Obrigado por jogar!" << endl;
 }
 
-void Game::carregarCena(int id) {
-    if (!currentScene.carregarCenaFromFile(id)) {
-        std::cout << "Falha ao carregar cena " << id << ".\n";
-    }
+void Jogo::telaDeInventario(bool criandoPersonagem)//implementar criacao de personagem
+{
+	if (criandoPersonagem) {
+		cout << "\n --- Criacao de Personagem ---" << endl;
+
+		int habilidade = 6;
+		int energia = 12;
+		int sorte = 6;
+		int pontosParaDistribuir = 12;
+
+		while (pontosParaDistribuir > 0)
+		{
+			cout << "Voce tem " << pontosParaDistribuir << "pontos para distribur" << endl;
+			cout << "\n Atributos atuais: " << endl;
+			cout << "1. HABILIDADE: " << habilidade << " (Max: 12)" << endl;
+			cout << "2. ENERGIA:    " << energia << " (Max: 24)" << endl;
+			cout << "3. SORTE:      " << sorte << " (Max: 12)" << endl;
+
+			cout << "\n Em qual atributo voce quer adicionar pontos? (Digite 1, 2 ou 3, \n para habilidade, energia ou sorte respectivamente" << endl;
+			int escolhaAtributo;
+			cin >> escolhaAtributo;
+
+			if (escolhaAtributo < 1 || escolhaAtributo > 3) {
+				cout << "Opcao invalida. Tente novamente" << endl;
+				continue;
+			}
+			cout << "Quantos pontos voce deseja adicionar?";
+			int pontosAdicionar;
+			cin >> pontosAdicionar;
+
+
+			//Validar os pontos aplicados
+			if (pontosAdicionar <= 0) {
+				cout << "Voce deve adicionar um numero positivo de pontos." << endl;
+				continue;
+			}
+			if (pontosAdicionar > pontosParaDistribuir) {
+				cout << "Voce nao tem pontos suficientes!" << endl;
+				continue;
+			}
+			//Adicao de pontos
+			switch (escolhaAtributo) {
+			case 1: //Habilidade
+				if (habilidade + pontosAdicionar > 12) {
+					cout << "Nao e possivel ultrapassar o valor maximo de 12 pontos." << endl;
+				}
+				else {
+					habilidade += pontosAdicionar;
+					pontosParaDistribuir -= pontosAdicionar;
+				}
+				break;
+
+			case 2: //Energia
+				if (energia + pontosAdicionar > 24) {
+					cout << "Nao e possivel ultrapassar o valor maximo de 24 pontos." << endl;
+				}
+				else {
+					energia += pontosAdicionar;
+					pontosParaDistribuir -= pontosAdicionar;
+				}
+			case 3://Sorte
+				if (sorte + pontosAdicionar > 12) {
+					cout << "Nao e possivel ultrapassar o valor maximo de 12 pontos." << endl;
+				}
+				else {
+					sorte += pontosAdicionar;
+					pontosParaDistribuir -= pontosAdicionar;
+				}
+				break;
+			}
+		}
+
+
+		cout << "\n --- Personagem Criado ---" << endl;
+
+	}
+
 }
+
+	void Jogo::telaPrincipalDoJogo() {
+	bool jogoAtivo = true;
+	while (jogoAtivo) {}//fazer logica de leitura de cenas, escolhas, etc
+
+	if (cenaAtual == nullptr) {
+		cout << "Cena nao carregada. Encerrando o jogo." << endl;
+		break;
+	}
+	salvarProgresso();
+
+	system("cls"); //limpa a tela (funciona no Linux/Mac, no Windows use "cls")
+
+	cenaAtual.carregar(numeroCenaAtual);
+	cout << "\n" << cenaAtual.getTexto() << "\n" << endl;
+	//utilizar a logica de leitura de cena aqui.
+
+
+	int escolha;
+	cout << "Escolha uma opcao: ";
+	cin >> escolha;
+
+	processarEscolha(escolha);
+	//Condicao para terminar o jogo, se necessario
+}
+
+	void Jogo::telaDeCombate(Monstro* inimigo) {
+		cout << "\n -- Combate Iniciado! -- \n" << endl;
+		cout << "Voce esta enfrentando: " << inimigo->getNome() << endl;
+
+		while(jogador->estaVivo() && inimigo->estaVivo()) {
+			cout << "Sua Energia: " << jogador->getEnergia() << " | Energia do " << inimigo->getNome() << ": " << inimigo->getEnergia() << endl;
+			cout << "O que voce faz?" << endl;
+			cout << "1. Atacar" << endl;
+			cout << "2. Usar Sorte" << endl;
+			cout << "3. Tentar Fugir" << endl;
+
+			int escolha;
+			cin >> escolha;
+			switch (escolha) {
+			case 1:
+				executarCombate();
+				break;
+			case 2: 
+				//logica de usar sorte
+			case 3:
+				cout << "Voce tentou fugir..." << endl;
+
+		}
+}
+
+

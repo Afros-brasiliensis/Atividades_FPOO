@@ -1,15 +1,11 @@
 #include "Item.h"
 
-//Construtor padrão, todo mundo zerado
-Item::Item() : nome(""), tipo(ItemType::COMUM), usavelEmCombate(false), ForcaAtaque(0), BonusDano(0) {
+Item::Item() 
+    : nome(""), tipo(ItemType::COMUM), usavelEmCombate(false), ForcaAtaque(0), BonusDano(0) {}
 
-}
-
-//Construtor com parâmetros
-
-Item::Item(const string& n, ItemType t, bool usavel, int fa, int dmg) : nome(n), tipo(t), usavelEmCombate(usavel), ForcaAtaque(fa), BonusDano(dmg) {
-
-}
+// Construtor parametrizado
+Item::Item(const std::string& n, ItemType t, bool usable, int fa, int dmg)
+    : nome(n), tipo(t), usavelEmCombate(usable), ForcaAtaque(fa), BonusDano(dmg) {}
 
 string Item::typeToString(ItemType t) {
 	switch (t) {
@@ -34,11 +30,11 @@ ItemType Item::charToType(char c) {
 
 string Item::toString() const {
 
-	string desc = nome	+ " [" + typeToString(tipo) + "]";
+	string desc = nome + " [" + typeToString(tipo) + "]";
 
 	if (ForcaAtaque != 0) {
 		desc += " | FA: ";
-		desc += ( ForcaAtaque > 0 ? "+" : "");
+		desc += (ForcaAtaque > 0 ? "+" : "");
 		desc += to_string(ForcaAtaque);
 	}
 
@@ -54,4 +50,24 @@ string Item::toString() const {
 
 	return desc;
 
+}
+
+string Item::getNome() const {
+	return nome;
+}
+
+ItemType Item::getTipo() const {
+	return tipo;
+}
+
+bool Item::isUsavelEmCombate() const {
+	return usavelEmCombate;
+}
+
+int Item::getForcaAtaque() const {
+	return ForcaAtaque;
+}
+
+int Item::getBonusDano() const {
+	return BonusDano;
 }

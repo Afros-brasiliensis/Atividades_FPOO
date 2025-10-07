@@ -1,160 +1,169 @@
-#include "Cena.h"
-#include "Item.h"
-#include <fstream>
-#include <sstream>
 #include <iostream>
-#include <algorithm>
-#include <cctype>
+#include <fstream>
+#include <vector>
+#include <string>
 
-static std::string trim(const std::string& s) {
-    size_t start = s.find_first_not_of(" \t\r\n");
-    if (start == std::string::npos) return "";
-    size_t end = s.find_last_not_of(" \t\r\n");
-    return s.substr(start, end - start + 1);
+#include "Cena.h" // Inclui a definição da nossa classe
+
+// --- FUNÇÃO AUXILIAR PARA DIVIDIR STRINGS ---
+// Usada para interpretar a linha do item e a linha de vitória/derrota
+vector<string> split(const string& s, char delimiter) {
+    vector<string> tokens;
+    string token;
+    size_t start = 0;
+    size_t end = s.find(delimiter);
+    while (end != string::npos) {
+        tokens.push_back(s.substr(start, end - start));
+        start = end + 1;
+        end = s.find(delimiter, start);
+    }
+    tokens.push_back(s.substr(start, end));
+    return tokens;
 }
 
-Scene::Scene()
-    : id(0), texto(""), is_monster(false),
-    next_win(-1), next_lose(-1) {
+// --- CONSTRUTOR E DESTRUTOR ---
+
+Cena::Cena() {
+    // Inicializa os ponteiros como nulos e os inteiros com um valor padrão
+    this->item = nullptr;
+    this->inimigo = nullptr;
+    this->cenaVitoria = -1; // -1 indica que não foi definido
+    this->cenaDerrota = -1;
 }
 
-bool Scene::carregarCenaFromFile(int id_) {
-    id = id_;
-    std::string fname = "scenes/" + std::to_string(id) + ".txt";
-    std::ifstream f(fname);
-    if (!f.is_open()) {
-        std::cout << "Erro ao abrir arquivo de cena: " << fname << "\n";
+Cena::~Cena() {
+    // Liberta a memória alocada dinamicamente para evitar memory leaks
+    delete this->item;
+    delete this->inimigo;
+}
+
+// --- MÉTODO PRINCIPAL DE CARREGAMENTO ---
+
+bool Cena::carregar(int numeroCena) {
+    // Limpa dados de uma cena anterior
+    delete this->item;
+    this->item = nullptr;
+    delete this->inimigo;
+    this->inimigo = nullptr;
+
+    this->textoPrincipal.clear();
+    this->textosDasEscolhas.clear();
+    this->cenasDeDestino.clear();
+    this->cenaVitoria = -1;
+    this->cenaDerrota = -1;
+
+    ifstream arquivo("cenas/" + to_string(numeroCena) + ".txt");
+    if (!arquivo.is_open()) {
+        cerr << "Erro: Não foi possível abrir o arquivo da cena " << numeroCena << endl;
         return false;
     }
 
-    std::vector<std::string> lines;
-    std::string line;
-    while (std::getline(f, line)) lines.push_back(line);
-    f.close();
+    string linha;
+    bool isMonstro = false; // Flag para saber se estamos a ler os dados de um monstro
 
-    texto.clear();
-    opcoesIds.clear();
-    is_monster = false;
-    next_win = next_lose = -1;
-
-    if (lines.empty()) return false;
-
-    size_t idx = 0;
-    // verifica se é cena de monstro
-    if (trim(lines[0]) == "m") {
-        is_monster = true;
-        idx = 1;
-    }
-
-    // lê o texto descritivo
-    for (; idx < lines.size(); ++idx) {
-        std::string l = trim(lines[idx]);
-        if (l.empty()) continue;
-
-        // se detectar início de parâmetros (N:, H:, etc.), interrompe leitura do texto
-        if (l.rfind("N:", 0) == 0 || l.rfind("H:", 0) == 0 || l.rfind("S:", 0) == 0 ||
-            l.rfind("E:", 0) == 0 || l.rfind("T:", 0) == 0 || l.rfind("P:", 0) == 0 ||
-            l.rfind("I:", 0) == 0)
-            break;
-
-        texto += l + "\n";
-    }
-
-    // se for monstro, lê parâmetros
-    for (; idx < lines.size(); ++idx) {
-        std::string t = trim(lines[idx]);
-        if (t.empty()) continue;
-
-        if (t.rfind("N:", 0) == 0) monster.nome = trim(t.substr(2));
-        else if (t.rfind("H:", 0) == 0) monster.habilidade = std::stoi(trim(t.substr(2)));
-        else if (t.rfind("S:", 0) == 0) monster.sorte = std::stoi(trim(t.substr(2)));
-        else if (t.rfind("E:", 0) == 0) monster.energia = std::stoi(trim(t.substr(2)));
-        else if (t.rfind("T:", 0) == 0) monster.tesouro = std::stoi(trim(t.substr(2)));
-        else if (t.rfind("P:", 0) == 0) monster.provisoes = std::stoi(trim(t.substr(2)));
-        else if (t.rfind("I:", 0) == 0) {
-            std::string rest = trim(t.substr(2));
-            item = Item::parseFromString(rest);
-            monster.itemDrop = item;
+    while (getline(arquivo, linha)) {
+        // Ignora linhas vazias
+        if (linha.empty()) {
+            continue;
         }
-        else {
-            // caso 12;13 (vitória;derrota)
-            size_t semi = t.find(';');
-            if (semi != std::string::npos) {
-                next_win = std::stoi(trim(t.substr(0, semi)));
-                next_lose = std::stoi(trim(t.substr(semi + 1)));
+
+        // --- INTERPRETAÇÃO DA LINHA ---
+
+        if (linha[0] == '#') { // É uma linha de escolha [cite: 108-110]
+            size_t posDoisPontos = linha.find(':');
+            if (posDoisPontos != string::npos) {
+                string strNumero = linha.substr(1, posDoisPontos - 1);
+                string texto = linha.substr(posDoisPontos + 2);
+                cenasDeDestino.push_back(stoi(strNumero));
+                textosDasEscolhas.push_back(texto);
             }
+            [cite_start]
         }
-    }
-
-    // se não for monstro, tenta ler opções (#2:, 1:, etc.)
-    if (!is_monster) {
-        for (auto& l : lines) {
-            std::string s = trim(l);
-            if (s.empty()) continue;
-
-            // formato “#2: Texto” ou “1: Texto”
-            if (s[0] == '#') {
-                size_t pos = 1;
-                while (pos < s.size() && isdigit(s[pos])) pos++;
-                int id = std::stoi(s.substr(1, pos - 1));
-                opcoesIds.push_back(id);
-            }
-            else if (isdigit(s[0])) {
-                size_t pos = 0;
-                while (pos < s.size() && isdigit(s[pos])) pos++;
-                if (pos < s.size() && s[pos] == ':') {
-                    int id = std::stoi(s.substr(0, pos));
-                    opcoesIds.push_back(id);
+        else if (linha.rfind("I: ", 0) == 0) { // É uma linha de item [cite: 107, 127, 141]
+            vector<string> dadosItem = split(linha.substr(3), ';');
+            if (dadosItem.size() == 5) {
+                Item* novoItem = new Item(dadosItem[0], dadosItem[1][0], stoi(dadosItem[2]), stoi(dadosItem[3]), stoi(dadosItem[4]));
+                if (isMonstro && this->inimigo != nullptr) {
+                    this->inimigo->setItemDrop(*novoItem); // Assume que o Inimigo tem este método
+                    delete novoItem; // A cópia foi feita, podemos apagar este
+                }
+                else {
+                    this->item = novoItem;
                 }
             }
+            [cite_start]
+        }
+        else if (linha.rfind("N: ", 0) == 0) { // Nome do monstro, início de um bloco de monstro [cite: 120, 135]
+            isMonstro = true;
+            this->inimigo = new Inimigo(linha.substr(3), 0, 0); // Habilidade e Energia serão lidas depois
+            [cite_start]
+        }
+        else if (linha.rfind("H: ", 0) == 0 && this->inimigo != nullptr) { // Habilidade do monstro [cite: 122, 136]
+            this->inimigo->setHabilidade(stoi(linha.substr(3))); // Assume que o Inimigo tem este método
+            [cite_start]
+        }
+        else if (linha.rfind("E: ", 0) == 0 && this->inimigo != nullptr) { // Energia do monstro [cite: 124, 138]
+            this->inimigo->setEnergia(stoi(linha.substr(3))); // Assume que o Inimigo tem este método
+            [cite_start]
+        }
+        else if (linha.rfind("S: ", 0) == 0 && this->inimigo != nullptr) { // Sorte do monstro [cite: 123, 137]
+            this->inimigo->setSorte(stoi(linha.substr(3))); // Assume que o Inimigo tem este método
+            [cite_start]
+        }
+        else if (linha.rfind("T: ", 0) == 0 && this->inimigo != nullptr) { // Tesouro do monstro [cite: 125, 139]
+            this->inimigo->setTesouro(stoi(linha.substr(3))); // Assume que o Inimigo tem este método
+            [cite_start]
+        }
+        else if (linha.rfind("P: ", 0) == 0 && this->inimigo != nullptr) { // Provisão do monstro [cite: 126, 140]
+            this->inimigo->setProvisoes(stoi(linha.substr(3))); // Assume que o Inimigo tem este método
+            [cite_start]
+        }
+        else if (isMonstro && linha.find(':') != string::npos) { // Linha de vitória/derrota [cite: 128, 142]
+            vector<string> destinos = split(linha, ':');
+            if (destinos.size() == 2) {
+                this->cenaVitoria = stoi(destinos[0]);
+                this->cenaDerrota = stoi(destinos[1]);
+            }
+        }
+        else { // É texto normal da aventura
+            textoPrincipal += linha + "\n";
         }
     }
 
+    arquivo.close();
     return true;
 }
 
-void Scene::mostrarCena() const {
-    std::cout << "\n--- Cena " << id << " ---\n";
-    std::cout << texto << "\n";
+// --- MÉTODOS GETTER ---
 
-    if (is_monster) {
-        std::cout << "** Monstro: " << monster.nome
-            << " (H=" << monster.habilidade
-            << " E=" << monster.energia
-            << " S=" << monster.sorte << ")\n";
-        std::cout << "1. Atacar\n2. Fugir\n3. Usar item\n";
-    }
-    else {
-        if (opcoesIds.empty())
-            std::cout << "(Sem opções disponíveis)\n";
-        else {
-            for (size_t i = 0; i < opcoesIds.size(); ++i)
-                std::cout << i + 1 << ". Ir para cena " << opcoesIds[i] << "\n";
-        }
-        std::cout << "0. Abrir inventário / salvar\n";
-    }
+string Cena::getTexto() const {
+    return this->textoPrincipal;
 }
 
-int Scene::lerEscolha() const {
-    int c;
-    std::cin >> c;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    if (!is_monster) {
-        if (c == 0) return -1; // abrir inventário
-        if (c >= 1 && (size_t)c <= opcoesIds.size())
-            return c;
-        return 1;
-    }
-
-    // se for cena de monstro
-    if (c >= 1 && c <= 3) return c;
-    return 1;
+Item* Cena::getItem() const {
+    return this->item;
 }
 
-int Scene::executarEscolha(int escolhaIndex, Player& player) {
-    if (is_monster) return -1; // controlado pela tela de batalha
-    int idx = escolhaIndex - 1;
-    if (idx < 0 || (size_t)idx >= opcoesIds.size()) return -1;
-    return opcoesIds[idx];
+bool Cena::isCenaDeCombate() const {
+    return this->inimigo != nullptr;
+}
+
+Inimigo* Cena::getInimigo() const {
+    return this->inimigo;
+}
+
+const vector<string>& Cena::getTextosDasEscolhas() const {
+    return this->textosDasEscolhas;
+}
+
+const vector<int>& Cena::getCenasDeDestino() const {
+    return this->cenasDeDestino;
+}
+
+int Cena::getCenaVitoria() const {
+    return this->cenaVitoria;
+}
+
+int Cena::getCenaDerrota() const {
+    return this->cenaDerrota;
 }

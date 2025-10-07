@@ -1,18 +1,48 @@
 #include "Monstro.h"
-#include <random>
+#include "Item.h"
 
-static int randIntStatic(int a, int b) {
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dist(a, b);
-    return dist(gen);
+Monstro::Monstro(string nome, int habilidade, int energia) :
+	nome(nome),
+	habilidade(habilidade),
+	energia(energia),
+	tesouroDrop(0),
+	provisoesDrop(0),
+	itemDrop(nullptr) //inicia como nulo, para indicar que não há drop
+{
+
 }
 
-Monster::Monster()
-    : nome(""), habilidade(6), energia(10), sorte(6),
-    tesouro(0), provisoes(0), itemDrop() {
+//getters
+string Monstro::getNome() {
+	return this->nome;
+}
+int Monstro::getHabilidade() {
+	return this->habilidade;
+}
+int Monstro::getEnergia() {
+	return this->energia;
+}
+bool Monstro::isFugaPermitida() {
+	return this->fugaPermitida;
+}
+bool Monstro::estaVivo() {
+	return this->energia > 0;
 }
 
-int Monster::atacarFA() const {
-    return randIntStatic(1, 10) + habilidade;
+//setters
+void Monstro::setTesouro(int valor) {
+	this->tesouroDrop = valor;
+}
+
+void Monstro::setProvisoes(int quantidade) {
+	this->provisoesDrop = quantidade;
+}
+
+void Monstro::setItemDrop(Item &item) {
+	delete this->itemDrop; //apaga a memória do item antigo, se houver. Evita memory leak
+	this->itemDrop = new Item(item); //cria uma cópia nova e permanente do item na memória dinamica
+}
+
+void Monstro::setFugaPermitida(bool permitida) {
+	this->fugaPermitida = permitida;
 }
