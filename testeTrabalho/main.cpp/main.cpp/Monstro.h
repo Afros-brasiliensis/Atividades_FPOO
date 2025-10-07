@@ -1,18 +1,35 @@
 #pragma once
 #include <string>
+#include <vector>
 #include "Item.h"
+using namespace std;
 
-class Monster {
+class Monstro {
 public:
-    Monster();
+	
+	Monstro();
+	Monstro(string nome, int habilidade, int energia);
+	~Monstro(); 
 
-    std::string nome;
-    int habilidade;
-    int energia;
-    int sorte;
-    int tesouro;
-    int provisoes;
-    Item itemDrop; // item que o monstro pode dropar
+	//Métodos para acessar as informações do monstro combatido
+	string getNome();
+	int getHabilidade();
+	int getEnergia();
 
-    int atacarFA() const; // calcula Força de Ataque (1d10 + habilidade)
+	//Métodos de drop do monstro, caso derrotado
+	void setTesouro(int valor); 
+	void setProvisoes(int quantidade);
+	void setItemDrop(Item &item);
+
+private: 
+	string nome;
+	int habilidade;
+	int energia;
+
+	//itens se ele for morto
+	int tesouroDrop; 
+	int provisoesDrop;
+	Item* itemDrop; //ponteiro para mostrar que ele pode dropar um item ou não
+
+	
 };
