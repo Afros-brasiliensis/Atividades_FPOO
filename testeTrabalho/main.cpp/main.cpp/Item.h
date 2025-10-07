@@ -1,14 +1,23 @@
 #pragma once
 #include <string>
+using namespace std; 
 
-struct Item {
-    std::string nome;
-    char tipo; // 'c' = comum, 'r' = armadura, 'w' = arma
-    bool combate; // pode ser usado em combate?
-    int bonusFA;  // bônus de Força de Ataque (positivo/negativo)
-    int bonusDano; // bônus/redução de dano (positivo/negativo)
+class Item {
+public: 
+	Item();
+	Item(string nome, char tipo, bool combate, int fa, int dano);
+	~Item();
 
-    Item();
-    Item(const std::string& n, char t, bool c, int fa, int dano);
-    static Item parseFromString(const std::string& s); // formato: nome;tipo;combate;FA;dano
+	string getNome();
+	char getTipo();
+	int getBonusForcaAtaque();
+	int getBonusDano(); 
+
+private: 
+	string nome;
+	char tipo; //'c' (comum), 'r' (armadura), 'w' (arma)
+	bool podeUsarEmCombate; 
+	int bonusForcaAtaque;
+	int bonusDano;
+
 };

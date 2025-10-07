@@ -140,7 +140,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Monstro.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="Personagem.h" />
     <ClInclude Include="SaveManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
