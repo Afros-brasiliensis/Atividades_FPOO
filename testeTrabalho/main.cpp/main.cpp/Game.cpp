@@ -184,7 +184,7 @@ void Jogo::telaDeInventario(bool criandoPersonagem)//implementar criacao de pers
 	}
 	salvarProgresso();
 
-	system("cls"); //limpa a tela (funciona no Linux/Mac, no Windows use "cls")
+	system("cls"); //limpa a tela
 
 	cenaAtual.carregar(numeroCenaAtual);
 	cout << "\n" << cenaAtual.getTexto() << "\n" << endl;
