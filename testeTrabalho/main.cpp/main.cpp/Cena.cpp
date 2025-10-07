@@ -69,7 +69,7 @@ bool Cena::carregar(int numeroCena) {
 
         // --- INTERPRETAÇÃO DA LINHA ---
 
-        [cite_start]if (linha[0] == '#') { // É uma linha de escolha [cite: 108-110]
+        if (linha[0] == '#') { // É uma linha de escolha [cite: 108-110]
             size_t posDoisPontos = linha.find(':');
             if (posDoisPontos != string::npos) {
                 string strNumero = linha.substr(1, posDoisPontos - 1);

@@ -18,6 +18,10 @@ public:
 	int getEnergia();
 	bool usarSorte(); //tenta usar a sorte, retornando true se conseguir
 	int getSorte(); 
+	bool estaVivo(); //retorna true se energia > 0
+	int getTesouro();
+	int getProvisoes();
+	vector<Item> getInventario();
 
 	//Métodos para funcionamento do inventário
 	void adicionarItem(Item &item);

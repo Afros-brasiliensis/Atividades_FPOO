@@ -25,7 +25,7 @@ public:
 
 private: 
 	string nome;
-	char tipo; //'c' (comum), 'r' (armadura), 'w' (arma)
+	char tipo; //'c' (comum), 'r' (armadura), 'w' (arma), 'm' (magia)
 	bool podeUsarEmCombate; 
 	int bonusForcaAtaque;
 	int bonusDano;

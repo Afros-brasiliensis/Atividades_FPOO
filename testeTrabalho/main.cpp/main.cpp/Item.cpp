@@ -10,6 +10,8 @@ Item::Item(string nome, char tipo, bool combate, int fa, int dano) :
 
 }
 
+Item::Item() {}
+
 string Item::getNome() {
 	return this->nome;
 }
