@@ -6,10 +6,12 @@ using namespace std;
 
 class Personagem {
 public: 
+	
 	Personagem();
-	Personagem(int habilidade, int energia, int sorte);
+	Personagem(string nome, int habilidade, int energia, int sorte);
 	~Personagem();
 
+	string getNome();
 	void tomarDano(int dano);
 	void curar(int cura);
 	int getHabilidade(); 
@@ -24,6 +26,8 @@ public:
 	void mostrarInventario();
 
 private: 
+	
+	string nome;
 	int habilidade; 
 	int energia;
 	int sorte; 
