@@ -11,7 +11,6 @@ public:
     int habilidade;
     int energia;
     int sorte;
-    bool mago;
     bool vivo;
     Inventory inventario;
 

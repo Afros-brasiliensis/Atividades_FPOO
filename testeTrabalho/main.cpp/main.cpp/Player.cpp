@@ -11,11 +11,11 @@ static int randInt(int a, int b) {
 }
 
 Player::Player()
-    : nome(""), habilidade(6), energia(12), sorte(6), mago(false), vivo(true) {
+    : nome(""), habilidade(6), energia(12), sorte(6), vivo(true) {
 }
 
 Player::Player(const std::string& n)
-    : nome(n), habilidade(6), energia(12), sorte(6), mago(false), vivo(true) {
+    : nome(n), habilidade(6), energia(12), sorte(6), vivo(true) {
 }
 
 void Player::distribuirPontosManual() {
@@ -81,13 +81,6 @@ void Player::distribuirPontosManual() {
                 << " dos " << PONTOS_TOTAIS_EXTRAS << " pontos disponíveis. Tente novamente." << "\n" << std::endl;
         }
     }
-
-
-    std::cout << "Deseja ser mago? (1 = Sim, 0 = Não): ";
-    int x;
-    std::cin >> x;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    mago = (x == 1);
 }
 
 void Player::distribuirPontosAleatorio() {
@@ -98,11 +91,6 @@ void Player::distribuirPontosAleatorio() {
     std::cout << "Distribuição aleatória: "
         << "H=" << habilidade << " E=" << energia << " S=" << sorte << "\n";
 
-    std::cout << "Deseja ser mago? (1 = Sim, 0 = Não): ";
-    int x;
-    std::cin >> x;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    mago = (x == 1);
 }
 
 bool Player::testarSorte() {
@@ -143,8 +131,7 @@ void Player::mostrarInventario() const {
     std::cout << "Atributos -> "
         << "H:" << habilidade
         << " E:" << energia
-        << " S:" << sorte
-        << (mago ? " (Mago)\n" : "\n");
+        << " S:" << sorte;
 }
 
 int Player::atacarFA() const {
