@@ -15,16 +15,20 @@ public:
 	string getNome();
 	int getHabilidade();
 	int getEnergia();
+	bool isFugaPermitida();
 
 	//Métodos de drop do monstro, caso derrotado
 	void setTesouro(int valor); 
 	void setProvisoes(int quantidade);
 	void setItemDrop(Item &item);
+	void setFugaPermitida(bool permitida);
+
 
 private: 
 	string nome;
 	int habilidade;
 	int energia;
+	bool fugaPermitida = true;
 
 	//itens se ele for morto
 	int tesouroDrop; 
