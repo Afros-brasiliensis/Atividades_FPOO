@@ -16,6 +16,7 @@ public:
 	int getHabilidade();
 	int getEnergia();
 	bool isFugaPermitida();
+	bool estaVivo(); //retorna true se energia > 0
 
 	//Métodos de drop do monstro, caso derrotado
 	void setTesouro(int valor); 

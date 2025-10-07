@@ -8,6 +8,7 @@ public:
 	Item(string nome, char tipo, bool combate, int fa, int dano);
 	~Item();
 
+	bool isUsavelEmCombate();
 	string getNome();
 	char getTipo();
 	int getBonusForcaAtaque();
