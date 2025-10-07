@@ -4,9 +4,18 @@ using namespace std;
 
 class Item {
 public: 
-	Item();
+	Item() :
+		nome(""),
+		tipo('c'),
+		podeUsarEmCombate(false),
+		bonusForcaAtaque(0),
+		bonusDano(0)
+	{
+
+	}
 	Item(string nome, char tipo, bool combate, int fa, int dano);
-	~Item();
+	~Item() {
+	}
 
 	bool isUsavelEmCombate();
 	string getNome();

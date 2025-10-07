@@ -7,9 +7,19 @@ using namespace std;
 class Monstro {
 public:
 	
-	Monstro();
+	Monstro() :
+		nome(""),
+		habilidade(0),
+		energia(0),
+		tesouroDrop(0),
+		provisoesDrop(0),
+		itemDrop(nullptr) //inicia como nulo, indicando que não há item drop
+	{
+	}
 	Monstro(string nome, int habilidade, int energia);
-	~Monstro(); 
+	~Monstro() {
+		delete itemDrop; //libera a memória alocada para o item, se houver
+	}
 
 	//Métodos para acessar as informações do monstro combatido
 	string getNome();
