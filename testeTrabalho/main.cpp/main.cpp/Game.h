@@ -14,24 +14,26 @@ private:
 
 	//Funcoes para cada tela de jogo
 	void telaDeAbertura();
-	void criarNovoJogo();
-	void carregarJogoSalvo();
+	void criarNovoJogo(int slot);
+	void carregarJogoSalvo(int slot);
 	void exibirCreditos();
-	void telaDeInventario();
-	void telaPrincipalDoJogo();
+	void telaDeInventario(bool criandoPersonagem);
+	void telaPrincipalDoJogo(int slot);
 	void telaDeCombate(Monstro* inimigo);
 
 	//Funcoes de logica de jogo
 	void processarEscolha(int escolha);
-	void executarCombate();
+	void executarCombate(Monstro* inimigo);
 
 	//Funcoes de persistencia
-	void salvarProgresso();
-	bool carregar();
+	void salvarProgresso(int slot);
+	bool carregar(int slot);
+	int escolherSlot();
 
 	Personagem* jogador; //ponteiro para o personagem do jogador
 	Cena cenaAtual; //cena atual do jogo
 	int numeroCenaAtual; //numero da cena atual
 	vector<int> cenasVisitadas; //para rastrear as cenas visitadas
+	
 
 };
