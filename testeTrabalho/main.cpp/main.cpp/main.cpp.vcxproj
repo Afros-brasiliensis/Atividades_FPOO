@@ -127,7 +127,6 @@
     <ClCompile Include="Cena.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Inventario.cpp" />
-    <ClCompile Include="Inventario.h" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Monstro.cpp" />

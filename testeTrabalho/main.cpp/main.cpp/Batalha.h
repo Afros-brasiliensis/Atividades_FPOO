@@ -18,3 +18,5 @@ class Batalha {
 		void turnoDoInimigo();
 		int calcularForcaAtaque(int habilidade);
 };
+
+		
