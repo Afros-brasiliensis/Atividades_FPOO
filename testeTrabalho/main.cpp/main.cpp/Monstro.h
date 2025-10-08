@@ -26,11 +26,15 @@ public:
 	int getHabilidade();
 	int getEnergia();
 	bool isFugaPermitida();
+	int getTesouro();
+	Item* getItemDrop(); //retorna ponteiro para o item drop, ou nullptr se não houver
 	bool estaVivo(); //retorna true se energia > 0
 
 	//Métodos de drop do monstro, caso derrotado
+	void setHabilidade(int valor);
+	void setEnergia(int valor);
+	void setNome(string nome);
 	void setTesouro(int valor); 
-	void setProvisoes(int quantidade);
 	void setItemDrop(Item &item);
 	void setFugaPermitida(bool permitida);
 	void tomarDano(int dano); 
