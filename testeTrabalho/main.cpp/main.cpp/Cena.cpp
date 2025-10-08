@@ -1,21 +1,22 @@
 #include "Cena.h"
-#include <fstream>
+#include <fstream> //biblioteca file stream, serve para ler arquivos
 #include <iostream>
-#include <sstream> // Usado para dividir strings de forma eficiente
+#include <sstream> // biblioteca para tratar a string como se fosse um arquivo, o que facilita na sua divisão
 
-// --- FUN��O AUXILIAR PARA DIVIDIR STRINGS ---
-// Usada para interpretar a linha do item (separada por ';')
-static vector<string> split(const string& s, char delimiter) {
-    vector<string> tokens;
-    string token;
-    istringstream tokenStream(s);
-    while (getline(tokenStream, token, delimiter)) {
-        tokens.push_back(token);
-    }
-    return tokens;
-}
+static vector<string> split(const string& s, char separador) { //static faz com que essa funcao seja visivel apenas nesse arquivo
+	vector<string> pedacos; //essa funcao divide uma string em varias strings menores, usando um caractere como separador
+                            //ou seja, isso é uma lista de pedacos de texto
+    string pedaco; //tipo, Adaga;w;1.0;2; - separador é o caractere que separa essas partes, nesse caso é o ';'
+    istringstream pedacoStream(s); //istringstream lê dados de uma string como se fosse um arquivo
+	                               //ou seja, a string s é tratada como um arquivo, e o pedacoStream é o "arquivo" que lê essa string
+    while (getline(pedacoStream, pedaco, separador)) { //esse while diz que enquanto o getline conseguir ler um pedaco, continua a executar o que ta dentro da {}
+                                                       //o getline é o que da a ordem para a "maquina de leitura", cada vez que ele é chamado, ele faz:
+    }                                                  //1. Comeca a ler do ponto onde o "cursor" da pedacoStream parou.
+    return pedacos;                                    //2.Continua a ler caractere por caractere ate encontrar o ';'.
+                                                       //3.Pega em tudo o que leu antes do separador e guarda na variavel pedaco.
+    }                                                  //4.Move o "cursor" da pedacoStream para a posicao logo depois do; que ela encontrou.
+                                                       //5.Se ela conseguiu ler alguma coisa, a funcao getline retorna true, se não, retorna false e o loop quebra.
 
-// --- CONSTRUTOR E DESTRUTOR ---
 
 Cena::Cena() :
     textoPrincipal(""),
