@@ -24,6 +24,7 @@ public:
 	int getBonusForcaAtaque();
 	int getBonusDano();
 	void equiparArma(int indiceDoInventario); 
+	void desequiparArma(int indiceDoInventario);
 	vector<Item> getInventario();
 
 	//Métodos para funcionamento do inventário
@@ -31,6 +32,7 @@ public:
 	void usarProvisao(); //recupera 4 pontos de vida
 	void adicionarTesouro(int valor);
 	void mostrarInventario();
+	
 
 private: 
 	
