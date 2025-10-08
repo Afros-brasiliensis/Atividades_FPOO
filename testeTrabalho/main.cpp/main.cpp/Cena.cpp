@@ -1,131 +1,112 @@
-#include <iostream>
+#include "Cena.h"
 #include <fstream>
-#include <vector>
-#include <string>
-
-#include "Cena.h" // Inclui a definição da nossa classe
+#include <iostream>
+#include <sstream> // Usado para dividir strings de forma eficiente
 
 // --- FUNÇÃO AUXILIAR PARA DIVIDIR STRINGS ---
-// Usada para interpretar a linha do item e a linha de vitória/derrota
-vector<string> split(const string& s, char delimiter) {
+// Usada para interpretar a linha do item (separada por ';')
+static vector<string> split(const string& s, char delimiter) {
     vector<string> tokens;
     string token;
-    size_t start = 0;
-    size_t end = s.find(delimiter);
-    while (end != string::npos) {
-        tokens.push_back(s.substr(start, end - start));
-        start = end + 1;
-        end = s.find(delimiter, start);
+    istringstream tokenStream(s);
+    while (getline(tokenStream, token, delimiter)) {
+        tokens.push_back(token);
     }
-    tokens.push_back(s.substr(start, end));
     return tokens;
 }
 
 // --- CONSTRUTOR E DESTRUTOR ---
 
-Cena::Cena() {
-    // Inicializa os ponteiros como nulos e os inteiros com um valor padrão
-    this->item = nullptr;
-    this->inimigo = nullptr;
-    this->cenaVitoria = -1; // -1 indica que não foi definido
-    this->cenaDerrota = -1;
+Cena::Cena() :
+    textoPrincipal(""),
+    item(nullptr),
+    inimigo(nullptr),
+    cenaVitoria(0),
+    cenaDerrota(0)
+{
 }
 
 Cena::~Cena() {
-    // Liberta a memória alocada dinamicamente para evitar memory leaks
-    delete this->item;
-    delete this->inimigo;
+    delete item;
+    delete inimigo;
 }
 
 // --- MÉTODO PRINCIPAL DE CARREGAMENTO ---
 
 bool Cena::carregar(int numeroCena) {
-    // Limpa dados de uma cena anterior
-    delete this->item;
-    this->item = nullptr;
-    delete this->inimigo;
-    this->inimigo = nullptr;
+    // 1. Limpa os dados da cena anterior para evitar lixo de memória
+    delete item;
+    item = nullptr;
+    delete inimigo;
+    inimigo = nullptr;
+    textoPrincipal.clear();
+    textoEscolhas.clear();
+    cenasDestino.clear();
+    cenaVitoria = 0;
+    cenaDerrota = 0;
 
-    this->textoPrincipal.clear();
-    this->textosDasEscolhas.clear();
-    this->cenasDeDestino.clear();
-    this->cenaVitoria = -1;
-    this->cenaDerrota = -1;
-
+    // 2. Abre o arquivo da cena (ex: "cenas/1.txt")
     ifstream arquivo("cenas/" + to_string(numeroCena) + ".txt");
     if (!arquivo.is_open()) {
-        cerr << "Erro: Não foi possível abrir o arquivo da cena " << numeroCena << endl;
-        return false;
+        cerr << "Erro: Nao foi possivel abrir o arquivo da cena " << numeroCena << endl;
+        return false; // Retorna false se o arquivo não existir (pode ser o fim do jogo)
     }
 
     string linha;
-    bool isMonstro = false; // Flag para saber se estamos a ler os dados de um monstro
+    bool lendoMonstro = false;
 
+    // 3. Lê o arquivo linha por linha
     while (getline(arquivo, linha)) {
-        // Ignora linhas vazias
-        if (linha.empty()) {
-            continue;
-        }
+        if (linha.empty()) continue;
 
-        // --- INTERPRETAÇÃO DA LINHA ---
+        // 4. Interpreta cada tipo de linha de acordo com as regras do PDF
 
-        if (linha[0] == '#') { // É uma linha de escolha [cite: 108-110]
+        // Linha de ESCOLHA (começa com '#') [cite: 101, 108, 109, 110]
+        if (linha[0] == '#') {
             size_t posDoisPontos = linha.find(':');
-            if (posDoisPontos != string::npos) {
-                string strNumero = linha.substr(1, posDoisPontos - 1);
-                string texto = linha.substr(posDoisPontos + 2);
-                cenasDeDestino.push_back(stoi(strNumero));
-                textosDasEscolhas.push_back(texto);
-            }
-            [cite_start]
+            string numStr = linha.substr(1, posDoisPontos - 1);
+            string texto = linha.substr(posDoisPontos + 2); // Pula o ':' e o espaço
+            cenasDestino.push_back(stoi(numStr));
+            textoEscolhas.push_back(texto);
         }
-        else if (linha.rfind("I: ", 0) == 0) { // É uma linha de item [cite: 107, 127, 141]
-            vector<string> dadosItem = split(linha.substr(3), ';');
-            if (dadosItem.size() == 5) {
-                Item* novoItem = new Item(dadosItem[0], dadosItem[1][0], stoi(dadosItem[2]), stoi(dadosItem[3]), stoi(dadosItem[4]));
-                if (isMonstro && this->inimigo != nullptr) {
-                    this->inimigo->setItemDrop(*novoItem); // Assume que o Inimigo tem este método
-                    delete novoItem; // A cópia foi feita, podemos apagar este
+        // Linha de ITEM (começa com 'I:') [cite: 107, 127, 141, 143]
+        else if (linha.rfind("I:", 0) == 0) {
+            vector<string> dados = split(linha.substr(2), ';'); // Pula o "I:"
+            // nome;tipo;combate;FA;dano
+            if (dados.size() == 5) {
+                Item* novoItem = new Item(dados[0], dados[1][0], stoi(dados[2]), stoi(dados[3]), stoi(dados[4]));
+                if (lendoMonstro && inimigo) {
+                    inimigo->setItemDrop(*novoItem); // Define o item que o monstro dropa
+                    delete novoItem; // A cópia foi feita, podemos deletar o temporário
                 }
                 else {
-                    this->item = novoItem;
+                    this->item = novoItem; // Item encontrado na cena
                 }
             }
-            [cite_start]
         }
-        else if (linha.rfind("N: ", 0) == 0) { // Nome do monstro, início de um bloco de monstro [cite: 120, 135]
-            isMonstro = true;
-            this->inimigo = new Inimigo(linha.substr(3), 0, 0); // Habilidade e Energia serão lidas depois
-            [cite_start]
+        // Linha de NOME DO MONSTRO (começa com 'N:') [cite: 120, 135]
+        else if (linha.rfind("N:", 0) == 0) {
+            lendoMonstro = true;
+            inimigo = new Monstro(linha.substr(2), 0, 0); // Cria o monstro, stats vêm depois
         }
-        else if (linha.rfind("H: ", 0) == 0 && this->inimigo != nullptr) { // Habilidade do monstro [cite: 122, 136]
-            this->inimigo->setHabilidade(stoi(linha.substr(3))); // Assume que o Inimigo tem este método
-            [cite_start]
+        // Linha de HABILIDADE do monstro [cite: 122, 136]
+        else if (lendoMonstro && linha.rfind("H:", 0) == 0) {
+            // Supondo que você crie um método setHabilidade em Monstro
+            // inimigo->setHabilidade(stoi(linha.substr(2)));
         }
-        else if (linha.rfind("E: ", 0) == 0 && this->inimigo != nullptr) { // Energia do monstro [cite: 124, 138]
-            this->inimigo->setEnergia(stoi(linha.substr(3))); // Assume que o Inimigo tem este método
-            [cite_start]
+        // Linha de ENERGIA do monstro [cite: 124, 138]
+        else if (lendoMonstro && linha.rfind("E:", 0) == 0) {
+            // Supondo que você crie um método setEnergia em Monstro
+            // inimigo->setEnergia(stoi(linha.substr(2)));
         }
-        else if (linha.rfind("S: ", 0) == 0 && this->inimigo != nullptr) { // Sorte do monstro [cite: 123, 137]
-            this->inimigo->setSorte(stoi(linha.substr(3))); // Assume que o Inimigo tem este método
-            [cite_start]
+        // Linha de VITÓRIA/DERROTA (ex: "12:13") [cite: 128, 142]
+        else if (lendoMonstro && linha.find(':') != string::npos) {
+            size_t posDoisPontos = linha.find(':');
+            this->cenaVitoria = stoi(linha.substr(0, posDoisPontos));
+            this->cenaDerrota = stoi(linha.substr(posDoisPontos + 1));
         }
-        else if (linha.rfind("T: ", 0) == 0 && this->inimigo != nullptr) { // Tesouro do monstro [cite: 125, 139]
-            this->inimigo->setTesouro(stoi(linha.substr(3))); // Assume que o Inimigo tem este método
-            [cite_start]
-        }
-        else if (linha.rfind("P: ", 0) == 0 && this->inimigo != nullptr) { // Provisão do monstro [cite: 126, 140]
-            this->inimigo->setProvisoes(stoi(linha.substr(3))); // Assume que o Inimigo tem este método
-            [cite_start]
-        }
-        else if (isMonstro && linha.find(':') != string::npos) { // Linha de vitória/derrota [cite: 128, 142]
-            vector<string> destinos = split(linha, ':');
-            if (destinos.size() == 2) {
-                this->cenaVitoria = stoi(destinos[0]);
-                this->cenaDerrota = stoi(destinos[1]);
-            }
-        }
-        else { // É texto normal da aventura
+        // Se não for nenhuma das anteriores, é texto da história
+        else {
             textoPrincipal += linha + "\n";
         }
     }
@@ -136,34 +117,34 @@ bool Cena::carregar(int numeroCena) {
 
 // --- MÉTODOS GETTER ---
 
-string Cena::getTexto() const {
+string Cena::getTexto() {
     return this->textoPrincipal;
 }
 
-Item* Cena::getItem() const {
-    return this->item;
-}
-
-bool Cena::isCenaDeCombate() const {
+bool Cena::isCenaDeCombate() {
     return this->inimigo != nullptr;
 }
 
-Inimigo* Cena::getInimigo() const {
+Monstro* Cena::getInimigo() {
     return this->inimigo;
 }
 
-const vector<string>& Cena::getTextosDasEscolhas() const {
-    return this->textosDasEscolhas;
-}
-
-const vector<int>& Cena::getCenasDeDestino() const {
-    return this->cenasDeDestino;
-}
-
-int Cena::getCenaVitoria() const {
+int Cena::getCenaVitoria() {
     return this->cenaVitoria;
 }
 
-int Cena::getCenaDerrota() const {
+int Cena::getCenaDerrota() {
     return this->cenaDerrota;
+}
+
+Item* Cena::getItem() {
+    return this->item;
+}
+
+const vector<string>& Cena::getTextoEscolhas() {
+    return this->textoEscolhas;
+}
+
+const vector<int>& Cena::getCenasDestino() {
+    return this->cenasDestino;
 }
