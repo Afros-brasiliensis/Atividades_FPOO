@@ -1,8 +1,4 @@
-#5
-O Draugr Antigo é mais resiliente do que aparenta. Seus ataques são lentos e previsíveis e a criatura o acerta com força, quebrando sua armadura e sua vontade. Sua Energia chega a zero.
+Ambos os corredores terminam em uma unica sala circular, ou seja, levavam para o mesmo caminho, esse lugar deve ser importante. No centro, uma grande porta de bronze, com gravuras de batalhas antigas, bloqueia o caminho. Ela esta fortemente trancada com uma grande tranca de ferro. Nao ha outra saida visivel, e você sente um mal pressagio da porta.
 
-A escuridão o envolve. Seu corpo de semideus cai na neve, derrotado por uma criatura de segunda categoria.
-
-FIM DE JOGO.
-
-#1: Recomeçar a jornada (Voltar para o início).
+#7: Tentar arrombar a porta com forca bruta.
+#9: Procurar por um mecanismo secreto ou uma passagem escondida nas paredes da sala.

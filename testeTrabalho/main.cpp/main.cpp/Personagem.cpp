@@ -1,16 +1,167 @@
-#include "Personagem.h" 
-#include <iostream> 
-#include <random> //para usar sorte
-using namespace std;
+    #include <iostream>
+#include <cstdlib> 
+#include "Personagem.h"
+
+Personagem::Personagem() :
+    nome(""),
+    habilidade(0),
+    energia(0),
+    sorte(0),
+    tesouro(0),
+    provisoes(0),
+    armaEquipada(nullptr) // Ponteiro da arma comeca nulo
+{
+}
 
 Personagem::Personagem(string nome, int habilidade, int energia, int sorte) :
-	nome(nome),
-	habilidade(habilidade),
-	energia(energia),
-	sorte(sorte),
-	tesouro(0),       // Comeca com 0 de tesouro
-	provisoes(2),     // Comeca com 2 provisoes (pode ajustar)
-	armaEquipada(nullptr),
-	armaduraEquipada(nullptr)
+    nome(nome),
+    habilidade(habilidade),
+    energia(energia),
+    sorte(sorte),
+    tesouro(0),
+    provisoes(2), 
+    armaEquipada(nullptr) 
 {
+}
+
+Personagem::~Personagem() {
+}
+
+string Personagem::getNome() { 
+    return this->nome; 
+}
+int Personagem::getHabilidade() { 
+    return this->habilidade; 
+}
+int Personagem::getEnergia() { 
+    return this->energia; 
+}
+int Personagem::getSorte() { 
+    return this->sorte; 
+}
+int Personagem::getTesouro() { 
+    return this->tesouro; 
+}
+int Personagem::getProvisoes() { 
+    return this->provisoes; 
+}
+vector<Item> Personagem::getInventario() { 
+    return this->inventario; 
+}
+
+int Personagem::getBonusForcaAtaque() {
+    if (this->armaEquipada != nullptr) {
+        return this->armaEquipada->getBonusForcaAtaque();
+    }
+    return 0;
+}
+
+int Personagem::getBonusDano() {
+    if (this->armaEquipada != nullptr) {
+        return this->armaEquipada->getBonusDano();
+    }
+    return 0;
+}
+
+void Personagem::tomarDano(int dano) {
+    this->energia -= dano;
+    if (this->energia < 0) this->energia = 0;
+}
+
+void Personagem::curar(int cura) { //para curar o personagem, sendo possivel usar em algumas cenas por exemplo
+    this->energia += cura;
+}
+
+bool Personagem::usarSorte() {
+    if (this->sorte <= 0) { //verifica se ainda tem sorte para gastar
+        return false; //se for 0, nao pode usar
+    }
+    // Lembre-se de chamar srand(time(nullptr)) uma vez no main.cpp
+    int rolagem = rand() % 10 + 1; // Numero aleatorio de 1 a 10
+
+	this->sorte--; //decrementa a sorte em 1, com ou sem sucesso
+	return rolagem <= this->sorte + 1; //como a sorte foi decrementada, adiciona 1 para compensar e fazer a comparacao com a sorte do personagem
+} //vai retornar true se a rolagem for menor ou igual a sorte
+
+bool Personagem::estaVivo() {
+    return this->energia > 0;
+}
+
+void Personagem::adicionarItem(Item& item) { //aqui a gente passa o item por referencia para n�o criar uma copia
+	this->inventario.push_back(item); //push back adiciona o item ao final do vetor inventario
+    cout << item.getNome() << " foi adicionado ao inventario!" << endl;
+}
+
+
+void Personagem::usarProvisao() { //diferente do metodo curar, esse metodo � s� pro jogador, usa um item para se curar
+    if (this->provisoes > 0) { //verifica se tem provisoes
+        this->provisoes--; 
+        this->energia += 4; // Uma provisao recupera sempre 4 pontos de vida
+        cout << "Voce usou uma provisao. Energia recuperada." << endl;
+    }
+    else {
+        cout << "Voce nao tem mais provisoes!" << endl;
+    }
+}
+
+void Personagem::adicionarTesouro(int valor) { //dinheiro acumulado
+    this->tesouro += valor;
+}
+
+void Personagem::equiparArma(int indiceDoInventario) { //esse trecho s� serve para verificar se o indice do inventario que o jogador escolheu � valido
+	if (indiceDoInventario < 0 || indiceDoInventario >= this->inventario.size()) { //ou seja, se for menor que 0 ou maior que o tamanho do vetor
+        cout << "Selecao invalida." << endl; //n�o funciona
+        return;
+    }
+
+    Item& itemParaEquipar = this->inventario[indiceDoInventario]; //o indice do inventario foi passado por par�metro l� em cima
+                                                                  //se o if anterior foi falso, o c�digo continua aqui. 
+																  //Essa linha vai at� o vetor do inventario e pega o item na posi��o do indice passado
+	if (itemParaEquipar.getTipo() == 'w') { //verifica o tipo do item, se for 'w' (weapon) � uma arma
+        this->armaEquipada = &itemParaEquipar;
+        cout << "Voce equipou: " << itemParaEquipar.getNome() << endl;
+    }
+    else {
+        cout << "Este item nao e uma arma e nao pode ser equipado." << endl;
+    }
+}
+
+void Personagem::desequiparArma(int indiceDoInventario) {
+    if (this->armaEquipada == nullptr) {
+        cout << "Nenhuma arma esta equipada." << endl;
+        return;
+    }
+    if (indiceDoInventario < 0 || indiceDoInventario >= this->inventario.size()) {
+        cout << "Selecao invalida." << endl;
+        return;
+    }
+    Item& itemParaDesequipar = this->inventario[indiceDoInventario];
+    if (&itemParaDesequipar == this->armaEquipada) {
+        this->armaEquipada = nullptr;
+        cout << "Voce desequipou: " << itemParaDesequipar.getNome() << endl;
+    }
+    else {
+        cout << "Este item nao esta equipado." << endl;
+    }
+}
+
+void Personagem::mostrarInventario() { //m�todo para mostrar o invent�rio do personagem e seus atributos
+	system("cls"); //limpa a tela
+    cout << "\n--- INVENTARIO DE " << this->nome << " ---" << endl;
+    cout << "Habilidade: " << this->habilidade << " | Energia: " << this->energia << " | Sorte: " << this->sorte << endl;
+    cout << "Tesouro: " << this->tesouro << " | Provisoes: " << this->provisoes << endl;
+    cout << "--------------------" << endl;
+    cout << "Equipamento:" << endl;
+    cout << "  Arma: " << (this->armaEquipada ? this->armaEquipada->getNome() : "Nenhuma") << endl; //? � um ent�o
+	cout << "--------------------" << endl;                                                         //ou seja, se tiver uma arma equipada, getNome da arma
+	cout << "Itens na mochila:" << endl;    												 //se n�o tiver, mostra "Nenhuma"                                   
+	if (this->inventario.empty()) {  //aqui � onde ele vai printar os itens do invent�rio
+        cout << "  (Vazia)" << endl; //se tiver vazio, printa vazio
+    }
+    else {
+        for (size_t i = 0; i < this->inventario.size(); ++i) { //loop para percorrer o vetor do inventario
+            cout << "  " << i + 1 << ". " << this->inventario[i].getNome() << endl; //printa indice do item + seu nome
+        }
+    }
+    cout << "--------------------" << endl;
 }

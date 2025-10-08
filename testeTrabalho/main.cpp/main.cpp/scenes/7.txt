@@ -1,6 +1,6 @@
-#7
-Você se aproxima da saliência, percebendo que ela parece frágil.
-DECISÃO 4: Você decide Testar Sorte para subir na saliência? (Sorte é decrementada em 1 [cite: 41])
+Voce investe seu ombro contra a porta de bronze. Um estrondo forte ecoa por todo o labirinto, a tranca de ferro se quebra. A porta se abre. Porem, o barulho atrai atencao indesejada. Do teto alto da proxima sala, uma criatura com o corpo de uma ave e o rosto de uma mulher desce em sua direcao gritando. Uma Harpia!
 
-#9: Se Testar Sorte for bem-sucedido (Encontra Provisão).
-#10: Se Testar Sorte falhar (Cai e se machuca).
+N: Harpia
+H: 8
+E: 7
+8:13

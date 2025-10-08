@@ -1,5 +1,3 @@
-#10
-Seu Teste de Sorte falhou[cite: 39]. A saliência cede e você cai alguns metros, perdendo 2 de Energia. Você consegue se levantar e continuar.
+Voce segue por uma passagem longa e escura, que termina em um lance de escadas que descem ainda mais para as profundezas da terra. Voce sente um calor intenso a cada degrau que desce. Voce pode ouvir o bufar pesado e raivoso de uma grande criatura logo abaixo. Este e o coracao do labirinto. Nao ha mais para onde ir senao para a frente.
 
-DECISÃO 6.1: O que fazer agora?
-#11: Seguir em frente no caminho do penhasco.
+#11: Descer as escadas e enfrentar o seu destino.

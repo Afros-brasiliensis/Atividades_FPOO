@@ -1,6 +1,4 @@
-#6
-Você sai da floresta e vê um vasto penhasco rochoso sobre o mar agitado. À sua frente, há um caminho sinuoso que leva para o alto. Você vê uma saliência estranha na lateral do penhasco que pode ter algo de valor.
+Voce escolhe o caminho da direita. Um vento frio atinge seu rosto, uma surpresa em relação ao ar parado da entrada. O corredor e mais largo aqui, e as paredes sao lisas. A frente, voce ve uma pequena camara com uma fonte no centro. A agua brilha com uma luz fraca, borbulhando suavemente. E a unica fonte de luz no local.
 
-DECISÃO 3: O que você faz?
-#7: Examinar a saliência estranha na rocha.
-#8: Ignorar e seguir o caminho principal.
+#14: Beber a agua da fonte.
+#5: Ignorar a fonte e seguir em frente.

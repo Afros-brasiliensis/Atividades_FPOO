@@ -21,6 +21,10 @@ public:
 	bool estaVivo(); //retorna true se energia > 0
 	int getTesouro();
 	int getProvisoes();
+	int getBonusForcaAtaque();
+	int getBonusDano();
+	void equiparArma(int indiceDoInventario); 
+	void desequiparArma(int indiceDoInventario);
 	vector<Item> getInventario();
 
 	//Métodos para funcionamento do inventário
@@ -28,6 +32,7 @@ public:
 	void usarProvisao(); //recupera 4 pontos de vida
 	void adicionarTesouro(int valor);
 	void mostrarInventario();
+	
 
 private: 
 	
@@ -37,6 +42,7 @@ private:
 	int sorte; 
 	int tesouro; //valor númerico, como moedas de ouro 
 	int provisoes; //número de provisões
+	Item* armaEquipada; //ponteiro para o item do tipo arma que pode estar equipado 
 	vector<Item> inventario; //itens do personagem, o vetor armazena itens do tipo Item e aloca dinamincamente
 
 };
