@@ -20,6 +20,7 @@ private:
 	void telaDeInventario(bool criandoPersonagem);
 	void telaPrincipalDoJogo(int slot);
 	void telaDeCombate(Monstro* inimigo);
+	void abrirInventario();
 
 	//Funcoes de logica de jogo
 	void processarEscolha(int escolha);

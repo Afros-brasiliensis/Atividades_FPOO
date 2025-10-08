@@ -126,6 +126,25 @@ void Personagem::equiparArma(int indiceDoInventario) { //esse trecho só serve pa
     }
 }
 
+void Personagem::desequiparArma(int indiceDoInventario) {
+    if (this->armaEquipada == nullptr) {
+        cout << "Nenhuma arma esta equipada." << endl;
+        return;
+    }
+    if (indiceDoInventario < 0 || indiceDoInventario >= this->inventario.size()) {
+        cout << "Selecao invalida." << endl;
+        return;
+    }
+    Item& itemParaDesequipar = this->inventario[indiceDoInventario];
+    if (&itemParaDesequipar == this->armaEquipada) {
+        this->armaEquipada = nullptr;
+        cout << "Voce desequipou: " << itemParaDesequipar.getNome() << endl;
+    }
+    else {
+        cout << "Este item nao esta equipado." << endl;
+    }
+}
+
 void Personagem::mostrarInventario() { //método para mostrar o inventário do personagem e seus atributos
 	system("cls"); //limpa a tela
     cout << "\n--- INVENTARIO DE " << this->nome << " ---" << endl;

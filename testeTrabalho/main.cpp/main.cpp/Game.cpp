@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <limits>
+#include <cctype> // Para a função toupper
 
 using namespace std;
 
@@ -29,7 +30,6 @@ Jogo::~Jogo() {
 }
 
 void Jogo::iniciar() {
-    // A lógica de iniciar o jogo sempre começa pelo menu principal.
     telaDeAbertura();
 }
 
@@ -77,8 +77,8 @@ void Jogo::telaDeAbertura() {
 
 void Jogo::criarNovoJogo(int slot) {
     cout << "\n -- Criando um Novo Jogo -- \n" << endl;
-    jogador = new Personagem(); // Cria um personagem temporário
-    telaDeInventario(true);     // Aqui o personagem real é criado e configurado
+    jogador = new Personagem();
+    telaDeInventario(true);
 
     numeroCenaAtual = 1;
     cenasVisitadas.clear();
@@ -91,7 +91,7 @@ void Jogo::carregarJogoSalvo(int slot) {
     cout << "\n -- Carregando Jogo Salvo -- \n" << endl;
     if (carregar(slot)) {
         cout << "Jogo carregado com sucesso!" << endl;
-        telaDeInventario(false); // Apenas mostra o inventário
+        telaDeInventario(false);
         telaPrincipalDoJogo(slot);
     }
     else {
@@ -110,95 +110,107 @@ void Jogo::exibirCreditos() {
 void Jogo::telaDeInventario(bool criandoPersonagem) {
     if (criandoPersonagem) {
         cout << "\n--- Criacao de Personagem ---" << endl;
-        cout << "Voce tem 12 pontos para distribuir entre os atributos." << endl;
+        cout << "Como deseja criar seu personagem?" << endl;
+        cout << "1. Distribuir Pontos (Recomendado)" << endl;
+        cout << "2. Geracao Aleatoria (Rapido)" << endl;
+        cout << "Escolha o modo: ";
 
-        // Atributos começam com o valor mínimo
-        int habilidade = 6;
-        int energia = 12;
-        int sorte = 6;
-        int pontosParaDistribuir = 12;
+        int modo;
+        cin >> modo;
 
-        while (pontosParaDistribuir > 0) {
-            // Limpa a tela para ver melhor
-            system("cls");
+        int habilidade = 6, energia = 12, sorte = 6;
 
-            cout << "\nVoce tem " << pontosParaDistribuir << " pontos restantes." << endl;
-            cout << "Atributos Atuais:" << endl;
-            cout << "1. HABILIDADE: " << habilidade << " (Max: 12)" << endl;
-            cout << "2. ENERGIA:    " << energia << " (Max: 24)" << endl;
-            cout << "3. SORTE:      " << sorte << " (Max: 12)" << endl;
-
-            cout << "\nEm qual atributo voce quer adicionar pontos? (1, 2 ou 3): ";
-            int escolhaAtributo;
-            cin >> escolhaAtributo;
-
-            if (cin.fail() || escolhaAtributo < 1 || escolhaAtributo > 3) {
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Opcao invalida. Tente novamente." << endl;
-                continue;
+        if (modo == 2) { // MODO ALEATÓRIO
+            cout << "Gerando personagem aleatoriamente..." << endl;
+            int pontosParaDistribuir = 12;
+            while (pontosParaDistribuir > 0) {
+                int atributo = rand() % 3;
+                if (atributo == 0 && habilidade < 12) habilidade++;
+                else if (atributo == 1 && energia < 24) energia++;
+                else if (atributo == 2 && sorte < 12) sorte++;
+                else continue;
+                pontosParaDistribuir--;
             }
+        }
+        else { // MODO PADRÃO - DISTRIBUIR PONTOS
+            int pontosParaDistribuir = 12;
+            while (pontosParaDistribuir > 0) {
+                system("cls || clear");
+                cout << "\nVoce tem " << pontosParaDistribuir << " pontos restantes." << endl;
+                cout << "Atributos Atuais:" << endl;
+                cout << "1. HABILIDADE: " << habilidade << " (Max: 12)" << endl;
+                cout << "2. ENERGIA:    " << energia << " (Max: 24)" << endl;
+                cout << "3. SORTE:      " << sorte << " (Max: 12)" << endl;
 
-            cout << "Quantos pontos voce deseja adicionar? ";
-            int pontosAdicionar;
-            cin >> pontosAdicionar;
+                cout << "\nEm qual atributo voce quer adicionar pontos? (1, 2 ou 3): ";
+                int escolhaAtributo;
+                cin >> escolhaAtributo;
 
-            if (cin.fail() || pontosAdicionar <= 0) {
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Voce deve adicionar um numero positivo de pontos." << endl;
-                continue;
-            }
+                if (cin.fail() || escolhaAtributo < 1 || escolhaAtributo > 3) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Opcao invalida. Tente novamente." << endl;
+                    continue;
+                }
 
-            if (pontosAdicionar > pontosParaDistribuir) {
-                cout << "Voce nao tem pontos suficientes!" << endl;
-                continue;
-            }
+                cout << "Quantos pontos voce deseja adicionar? ";
+                int pontosAdicionar;
+                cin >> pontosAdicionar;
 
-            switch (escolhaAtributo) {
-            case 1: // Habilidade
-                if (habilidade + pontosAdicionar > 12) {
-                    cout << "Nao e possivel ultrapassar o valor maximo de 12 para HABILIDADE." << endl;
+                if (cin.fail() || pontosAdicionar <= 0) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Voce deve adicionar um numero positivo de pontos." << endl;
+                    continue;
                 }
-                else {
-                    habilidade += pontosAdicionar;
-                    pontosParaDistribuir -= pontosAdicionar;
+
+                if (pontosAdicionar > pontosParaDistribuir) {
+                    cout << "Voce nao tem pontos suficientes!" << endl;
+                    continue;
                 }
-                break;
-            case 2: // Energia
-                if (energia + pontosAdicionar > 24) {
-                    cout << "Nao e possivel ultrapassar o valor maximo de 24 para ENERGIA." << endl;
+
+                switch (escolhaAtributo) {
+                case 1: // Habilidade
+                    if (habilidade + pontosAdicionar > 12) {
+                        cout << "Nao e possivel ultrapassar o valor maximo de 12 para HABILIDADE." << endl;
+                    }
+                    else {
+                        habilidade += pontosAdicionar;
+                        pontosParaDistribuir -= pontosAdicionar;
+                    }
+                    break;
+                case 2: // Energia
+                    if (energia + pontosAdicionar > 24) {
+                        cout << "Nao e possivel ultrapassar o valor maximo de 24 para ENERGIA." << endl;
+                    }
+                    else {
+                        energia += pontosAdicionar;
+                        pontosParaDistribuir -= pontosAdicionar;
+                    }
+                    break;
+                case 3: // Sorte
+                    if (sorte + pontosAdicionar > 12) {
+                        cout << "Nao e possivel ultrapassar o valor maximo de 12 para SORTE." << endl;
+                    }
+                    else {
+                        sorte += pontosAdicionar;
+                        pontosParaDistribuir -= pontosAdicionar;
+                    }
+                    break;
                 }
-                else {
-                    energia += pontosAdicionar;
-                    pontosParaDistribuir -= pontosAdicionar;
-                }
-                break; 
-            case 3: // Sorte
-                if (sorte + pontosAdicionar > 12) {
-                    cout << "Nao e possivel ultrapassar o valor maximo de 12 para SORTE." << endl;
-                }
-                else {
-                    sorte += pontosAdicionar;
-                    pontosParaDistribuir -= pontosAdicionar;
-                }
-                break;
             }
         }
 
         delete jogador;
         jogador = new Personagem("Aventureiro", habilidade, energia, sorte);
-
         cout << "\n--- Personagem Criado! ---" << endl;
     }
 
-    // Garante que o jogador existe antes de tentar mostrar o inventário
     if (jogador) {
         jogador->mostrarInventario();
     }
 
     cout << "Pressione Enter para continuar...";
-    // Limpa qualquer entrada restante no buffer antes de esperar pelo Enter
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
 }
@@ -221,15 +233,15 @@ void Jogo::telaPrincipalDoJogo(int slot) {
         }
 
         if (cenaAtual.isCenaDeCombate()) {
-			Batalha batalha(jogador, cenaAtual.getInimigo());
+            Batalha batalha(jogador, cenaAtual.getInimigo());
             bool vitoria = batalha.executar();
             if (vitoria) {
                 jogador->adicionarTesouro(cenaAtual.getInimigo()->getTesouro());
+                // Adicionar provisões se houver
                 Item* itemDrop = cenaAtual.getInimigo()->getItemDrop();
                 if (itemDrop) {
                     jogador->adicionarItem(*itemDrop);
                 }
-
                 numeroCenaAtual = cenaAtual.getCenaVitoria();
             }
             else {
@@ -237,66 +249,94 @@ void Jogo::telaPrincipalDoJogo(int slot) {
                     jogoAtivo = false;
                 }
                 numeroCenaAtual = cenaAtual.getCenaDerrota();
-			}
+            }
         }
         else {
-            system("cls");
+            system("cls || clear");
             cout << cenaAtual.getTexto() << endl;
 
             bool escolheuAcaoDaCena = false;
             while (!escolheuAcaoDaCena) {
-                cout << "\n---------------------------------------" << endl;
-                cout << "O que voce deseja fazer? " << endl;
+                cout << "\n----------------------------------------" << endl;
+                cout << "O que voce deseja fazer?" << endl;
 
-            }
+                const auto& opcoes = cenaAtual.getTextoEscolhas();
+                for (size_t i = 0; i < opcoes.size(); ++i) {
+                    cout << i + 1 << ". " << opcoes[i] << endl;
+                }
 
-            const auto& opcoes = cenaAtual.getTextoEscolhas();
-            for (size_t i = 0; i < opcoes.size(); ++i) {
-                cout << i + 1 << ". " << opcoes[i] << endl;
-            }
-
-            cout << "-----------------------------------------" << endl;
-            cout << "[Acoes do Jogador]" << endl;
-            cout << "I - Abrir Inventario (Equiapr/ Desequipar)" << endl;
-            cout << "C - Usar provisao (Curar)" << endl;
-            cout << "-----------------------------------------" << endl
+                cout << "----------------------------------------" << endl;
+                cout << "[Acoes do Jogador]" << endl;
+                cout << "I - Abrir Inventario (Equipar/Desequipar)" << endl;
+                cout << "C - Usar Provisao (Curar)" << endl;
+                cout << "----------------------------------------" << endl;
 
                 cout << "Sua escolha: ";
-            string escolhaStr;
-            cin >> escolhaStr;
+                string escolhaStr;
+                cin >> escolhaStr;
 
-            try {
-                int escolhaNum = stoi(escolhaStr);
-                processarEscolha(escolhaNum);
-                escolheuAcaoDaCena = true;
-            }
-            catch { (const invalid_argument& e) {
-                char escolhaChar = toupper(escolhaStr[0]);
-                if (escolhaChar == 'I') {
-                    abrirInventario();
+                try {
+                    int escolhaNum = stoi(escolhaStr);
+                    processarEscolha(escolhaNum);
+                    escolheuAcaoDaCena = true;
                 }
-                else if{escolhaChar == 'C'){
-                    jogador->usarProvisao();
-                    cout << "Pressione Enter para continuar"
-                        cin.ignore();
-                    cin.get();
+                catch (const invalid_argument& e) {
+                    char escolhaChar = toupper(escolhaStr[0]);
+                    if (escolhaChar == 'I') {
+                        abrirInventario();
                     }
-                else {
-                    cout << "Comando invalido." << endl;
-                }
-                system("cls");
-                cout << cenaAtual.getTexto() << endl;
+                    else if (escolhaChar == 'C') {
+                        jogador->usarProvisao();
+                        cout << "Pressione Enter para continuar...";
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cin.get();
+                    }
+                    else {
+                        cout << "Comando invalido." << endl;
+                    }
+                    system("cls || clear");
+                    cout << cenaAtual.getTexto() << endl;
                 }
             }
-            }
+        }
 
-        if (numeroCenaAtual == 0) { // Condição de fim de jogo
+        if (numeroCenaAtual == 0) {
             jogoAtivo = false;
         }
     }
 
     if (!jogador->estaVivo()) {
         cout << "\n--- VOCE FOI DERROTADO --- \nFim de Jogo." << endl;
+    }
+}
+
+void Jogo::abrirInventario() {
+    bool noInventario = true;
+    while (noInventario) {
+        jogador->mostrarInventario();
+        cout << "Digite o numero do item para equipar/desequipar, ou 0 para voltar: ";
+        int escolha;
+        cin >> escolha;
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Entrada invalida." << endl;
+            continue;
+        }
+
+        if (escolha == 0) {
+            noInventario = false;
+        }
+        else {
+            jogador->equiparArma(escolha - 1);
+        }
+
+        if (noInventario) { // Pausa apenas se não for sair
+            cout << "Pressione Enter para continuar...";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.get();
+        }
     }
 }
 
@@ -325,34 +365,8 @@ int Jogo::escolherSlot() {
     return slot;
 }
 
-void Jogo::abrirInvenatario(){
-    bool noInventario = true;
-    while (noInventario) {
-        jogador->mostrarInventario();
-        cout << "Digite o numero do item para equipar/desequipar ou 0 para sair: ";
-        int escolha;
-        cin >> escolha;
-
-        if (cin.fail()) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            continue;
-
-            if (escolha == 0) {
-                noInventario = false;
-            }
-            else
-            {
-                jogador->equiparArma(escolha - 1);
-            }
-            cout << "Pressione Enter para continuar...";
-            cin.ignore();
-            cin.get();
-        }
-    }
-
 void Jogo::salvarProgresso(int slot) {
-    if (!jogador) return; // Não salva se o jogador não existir
+    if (!jogador) return;
     ofstream saveFile("savegame" + to_string(slot) + ".txt");
     if (!saveFile.is_open()) return;
 
@@ -379,15 +393,12 @@ void Jogo::salvarProgresso(int slot) {
 }
 
 bool Jogo::carregar(int slot) {
-    // 1. Tenta abrir o arquivo do slot escolhido
     ifstream loadFile("savegame" + to_string(slot) + ".txt");
     if (!loadFile.is_open()) {
-        // Se o arquivo não existir, retorna false.
         return false;
     }
 
     try {
-        // 2. Lê os dados básicos do personagem
         string nome;
         int habilidade, energia, sorte, tesouro, provisoes;
         string linha;
@@ -399,41 +410,27 @@ bool Jogo::carregar(int slot) {
         getline(loadFile, linha); tesouro = stoi(linha);
         getline(loadFile, linha); provisoes = stoi(linha);
 
-        // 3. Deleta o jogador antigo (se houver) e cria um novo com os dados carregados
         delete jogador;
         jogador = new Personagem(nome, habilidade, energia, sorte);
-
-        // Atribui o tesouro e as provisões carregadas
-        // (Garanta que sua classe Personagem tenha estes métodos)
         jogador->adicionarTesouro(tesouro);
-        // jogador->setProvisoes(provisoes); // Você precisará criar este método em Personagem.h/cpp
+        // jogador->setProvisoes(provisoes); // Garanta que Personagem.h/cpp tenha este método
 
-        // 4. Lê o inventário
         getline(loadFile, linha);
         int numItens = stoi(linha);
 
         for (int i = 0; i < numItens; ++i) {
             string itemLinha;
             getline(loadFile, itemLinha);
-
-            // Usa a função 'split' para quebrar a linha "nome;tipo;combate;fa;dano"
             vector<string> dadosItem = split(itemLinha, ';');
             if (dadosItem.size() == 5) {
-                Item item(dadosItem[0],                 // nome (string)
-                    dadosItem[1][0],               // tipo (char)
-                    stoi(dadosItem[2]),            // podeUsarEmCombate (bool/int)
-                    stoi(dadosItem[3]),            // bonusForcaAtaque (int)
-                    stoi(dadosItem[4]));           // bonusDano (int)
-
+                Item item(dadosItem[0], dadosItem[1][0], stoi(dadosItem[2]), stoi(dadosItem[3]), stoi(dadosItem[4]));
                 jogador->adicionarItem(item);
             }
         }
 
-        // 5. Lê o estado do jogo (cena atual)
         getline(loadFile, linha);
         this->numeroCenaAtual = stoi(linha);
 
-        // 6. Lê o histórico de cenas visitadas
         this->cenasVisitadas.clear();
         getline(loadFile, linha);
         int numCenasVisitadas = stoi(linha);
@@ -447,13 +444,10 @@ bool Jogo::carregar(int slot) {
             }
         }
 
-        // 7. Se tudo correu bem, fecha o arquivo e retorna sucesso
         loadFile.close();
         return true;
-
     }
     catch (const std::exception& e) {
-        // Se qualquer conversão (stoi) ou leitura falhar, o arquivo está corrompido.
         cerr << "Erro ao carregar o jogo: arquivo de save corrompido. (" << e.what() << ")" << endl;
         loadFile.close();
         return false;
