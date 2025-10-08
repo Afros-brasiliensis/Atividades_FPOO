@@ -16,8 +16,14 @@ Monstro::Monstro(string nome, int habilidade, int energia) :
 string Monstro::getNome() {
 	return this->nome;
 }
+int Monstro::getTesouro() {
+	return this->tesouroDrop;
+}
 int Monstro::getHabilidade() {
 	return this->habilidade;
+}
+Item* Monstro::getItemDrop() {
+	return this->itemDrop;
 }
 int Monstro::getEnergia() {
 	return this->energia;
@@ -33,10 +39,16 @@ bool Monstro::estaVivo() {
 void Monstro::setTesouro(int valor) {
 	this->tesouroDrop = valor;
 }
-
-void Monstro::setProvisoes(int quantidade) {
-	this->provisoesDrop = quantidade;
+void Monstro::setNome(string nome) {
+	this->nome = nome;
 }
+void Monstro::setHabilidade(int valor) {
+	this->habilidade = valor;
+}
+void Monstro::setEnergia(int valor) {
+	this->energia = valor;
+}
+
 
 void Monstro::setItemDrop(Item &item) {
 	delete this->itemDrop; //apaga a memória do item antigo, se houver. Evita memory leak
