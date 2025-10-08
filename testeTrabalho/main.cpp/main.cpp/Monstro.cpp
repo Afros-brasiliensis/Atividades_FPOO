@@ -46,3 +46,10 @@ void Monstro::setItemDrop(Item &item) {
 void Monstro::setFugaPermitida(bool permitida) {
 	this->fugaPermitida = permitida;
 }
+
+void Monstro::tomarDano(int dano) {
+	this->energia -= dano;
+	if (this->energia < 0) {
+		this->energia = 0; //evita energia negativa
+		}
+}

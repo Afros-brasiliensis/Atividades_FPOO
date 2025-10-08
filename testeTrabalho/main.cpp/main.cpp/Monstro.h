@@ -33,6 +33,7 @@ public:
 	void setProvisoes(int quantidade);
 	void setItemDrop(Item &item);
 	void setFugaPermitida(bool permitida);
+	void tomarDano(int dano); 
 
 
 private: 
