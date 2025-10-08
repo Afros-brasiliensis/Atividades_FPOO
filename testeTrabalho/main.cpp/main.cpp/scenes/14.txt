@@ -1,6 +1,3 @@
-#14
-Você se espreme pelo buraco lateral. É um teste de destreza.
-DECISÃO 9: Testar Habilidade ou forçar a passagem?
+A aparencia magica da agua o convence. Voce se aproxima e bebe um gole. A agua e fria e tem um gosto estranho. Por um momento, voce se sente revigorado, parece recuperar um pouco sua forca de vontade. Porem, logo em seguida, uma tontura o atinge, mas passa rapidamente. Voce se sente um pouco mais fraco, mas tambem sortudo por nao ter sido nada pior. Voce segue em frente.
 
-- Se Habilidade for bem-sucedida: Você passa com cautela. Vá para cena 15.
-- Se Habilidade falhar: Você fica preso e se machuca, perdendo 2 de Energia. Vá para cena 10 (Volta para o caminho do Penhasco com dano).
+#5: Continuar pela passagem adiante.

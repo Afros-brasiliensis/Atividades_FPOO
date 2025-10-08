@@ -1,16 +1,8 @@
-#3
-O caminho largo está coberto de pegadas grandes e pesadas. Um Draugr Antigo surge, protegendo uma pequena pilha de tesouros. O combate é inevitável. Sua Habilidade será testada.
+A sua audacia leva-o para a escuridao. Voce pisa num osso que se parte, denunciando a sua posicao. Das sombras, um Satiro com um cajado de madeira salta na sua direcao, gritando em furia! Ele ataca sem hesitar, o seu alvo e claro. Prepare-se para lutar pela sua vida!
 
-N: Draugr Antigo
-M: S
-H: 10
-S: 8
-E: 14
-T: 50
-P: 0
-I:
-4:5
-
-DECISÃO 2.1: Lutar ou Fugir?
-- Lutar: Inicia a batalha (sucesso: 4, derrota: 5).
-- Fugir: Você tenta a sorte, decremente Sorte. Se falhar, você apanha e perde 2 de Energia, indo para cena 6. Se tiver sucesso, vá para cena 6.
+N: Satiro Batedor
+H: 7
+E: 6
+FUGIR: N
+I: Pocao de Cura;c;1;0;0
+5:13

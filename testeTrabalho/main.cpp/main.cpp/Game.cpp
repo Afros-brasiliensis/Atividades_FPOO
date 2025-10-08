@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Batalha.h"
 #include <iostream>
 #include <fstream>
 #include <ctime>
@@ -220,22 +221,74 @@ void Jogo::telaPrincipalDoJogo(int slot) {
         }
 
         if (cenaAtual.isCenaDeCombate()) {
-            telaDeCombate(cenaAtual.getInimigo());
+			Batalha batalha(jogador, cenaAtual.getInimigo());
+            bool vitoria = batalha.executar();
+            if (vitoria) {
+                jogador->adicionarTesouro(cenaAtual.getInimigo()->getTesouro());
+                Item* itemDrop = cenaAtual.getInimigo()->getItemDrop();
+                if (itemDrop) {
+                    jogador->adicionarItem(*itemDrop);
+                }
+
+                numeroCenaAtual = cenaAtual.getCenaVitoria();
+            }
+            else {
+                if (!jogador->estaVivo()) {
+                    jogoAtivo = false;
+                }
+                numeroCenaAtual = cenaAtual.getCenaDerrota();
+			}
         }
         else {
             system("cls");
             cout << cenaAtual.getTexto() << endl;
+
+            bool escolheuAcaoDaCena = false;
+            while (!escolheuAcaoDaCena) {
+                cout << "\n---------------------------------------" << endl;
+                cout << "O que voce deseja fazer? " << endl;
+
+            }
 
             const auto& opcoes = cenaAtual.getTextoEscolhas();
             for (size_t i = 0; i < opcoes.size(); ++i) {
                 cout << i + 1 << ". " << opcoes[i] << endl;
             }
 
-            int escolha;
-            cout << "\nSua escolha: ";
-            cin >> escolha;
-            processarEscolha(escolha);
-        }
+            cout << "-----------------------------------------" << endl;
+            cout << "[Acoes do Jogador]" << endl;
+            cout << "I - Abrir Inventario (Equiapr/ Desequipar)" << endl;
+            cout << "C - Usar provisao (Curar)" << endl;
+            cout << "-----------------------------------------" << endl
+
+                cout << "Sua escolha: ";
+            string escolhaStr;
+            cin >> escolhaStr;
+
+            try {
+                int escolhaNum = stoi(escolhaStr);
+                processarEscolha(escolhaNum);
+                escolheuAcaoDaCena = true;
+            }
+            catch { (const invalid_argument& e) {
+                char escolhaChar = toupper(escolhaStr[0]);
+                if (escolhaChar == 'I') {
+                    abrirInventario();
+                }
+                else if{escolhaChar == 'C'){
+                    jogador->usarProvisao();
+                    cout << "Pressione Enter para continuar"
+                        cin.ignore();
+                    cin.get();
+                    }
+                else {
+                    cout << "Comando invalido." << endl;
+                }
+                system("cls");
+                cout << cenaAtual.getTexto() << endl;
+                }
+            }
+            }
 
         if (numeroCenaAtual == 0) { // Condição de fim de jogo
             jogoAtivo = false;
@@ -247,46 +300,6 @@ void Jogo::telaPrincipalDoJogo(int slot) {
     }
 }
 
-void Jogo::telaDeCombate(Monstro* inimigo) {
-    cout << "\n -- Combate Iniciado! -- \n" << endl;
-    cout << "Voce esta enfrentando: " << inimigo->getNome() << endl;
-
-    while (jogador->estaVivo() && inimigo->estaVivo()) {
-        cout << "\nSua Energia: " << jogador->getEnergia() << " | Energia do " << inimigo->getNome() << ": " << inimigo->getEnergia() << endl;
-        cout << "O que voce faz?\n1. Atacar\n2. Usar Sorte\n3. Tentar Fugir" << endl;
-
-        int escolha;
-        cin >> escolha;
-        switch (escolha) {
-        case 1:
-            executarCombate(inimigo); // **CORREÇÃO**: Passando o inimigo
-            break;
-        case 2:
-            if (jogador->usarSorte()) {
-                cout << "Voce testa sua sorte e consegue um golpe poderoso!" << endl;
-                inimigo->tomarDano(4); // Dano ampliado
-            }
-            else {
-                cout << "Voce nao tem mais Sorte para usar!" << endl;
-            }
-            break; // **CORREÇÃO**: Faltava este break
-        case 3:
-            cout << "Voce tentou fugir..." << endl;
-            // Lógica de fuga aqui
-            numeroCenaAtual = cenaAtual.getCenaDerrota(); // Fuga leva à cena de "derrota"
-            return; // Sai da função de combate
-        }
-    } // **CORREÇÃO**: Faltava esta chave '}' para fechar o while
-
-    if (jogador->estaVivo()) {
-        cout << "Voce venceu!" << endl;
-        numeroCenaAtual = cenaAtual.getCenaVitoria();
-    }
-    else {
-        numeroCenaAtual = cenaAtual.getCenaDerrota();
-    }
-}
-
 void Jogo::processarEscolha(int escolha) {
     const auto& destinos = cenaAtual.getCenasDestino();
     if (escolha > 0 && escolha <= destinos.size()) {
@@ -294,25 +307,6 @@ void Jogo::processarEscolha(int escolha) {
     }
     else {
         cout << "Escolha invalida." << endl;
-    }
-}
-
-void Jogo::executarCombate(Monstro* inimigo) {
-    int faJogador = (rand() % 10 + 1) + jogador->getHabilidade();
-    int faInimigo = (rand() % 10 + 1) + inimigo->getHabilidade();
-
-    cout << "Sua Forca de Ataque: " << faJogador << " | Forca do Inimigo: " << faInimigo << endl;
-
-    if (faJogador > faInimigo) {
-        cout << "Voce atinge o inimigo!" << endl;
-        inimigo->tomarDano(2);
-    }
-    else if (faInimigo > faJogador) {
-        cout << "O inimigo atinge voce!" << endl;
-        jogador->tomarDano(2);
-    }
-    else {
-        cout << "Empate!" << endl;
     }
 }
 
@@ -330,6 +324,32 @@ int Jogo::escolherSlot() {
     }
     return slot;
 }
+
+void Jogo::abrirInvenatario(){
+    bool noInventario = true;
+    while (noInventario) {
+        jogador->mostrarInventario();
+        cout << "Digite o numero do item para equipar/desequipar ou 0 para sair: ";
+        int escolha;
+        cin >> escolha;
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+
+            if (escolha == 0) {
+                noInventario = false;
+            }
+            else
+            {
+                jogador->equiparArma(escolha - 1);
+            }
+            cout << "Pressione Enter para continuar...";
+            cin.ignore();
+            cin.get();
+        }
+    }
 
 void Jogo::salvarProgresso(int slot) {
     if (!jogador) return; // Não salva se o jogador não existir

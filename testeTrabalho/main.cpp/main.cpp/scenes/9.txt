@@ -1,7 +1,4 @@
-#9
-Seu Teste de Sorte foi um sucesso[cite: 39]! Você sobe na saliência sem problemas e encontra uma bolsa de Provisões. (Você recupera 4 de Energia ao usar uma Provisão [cite: 52]).
+Voce decide que forca bruta nao e o caminho. Voce passa as maos pelas paredes de pedra fria, procurando por qualquer ponto estranho. Atras de uma pedra solta, voce percebe um mecanismo. Ao pressiona-lo, uma parte da parede desliza para o lado, revelando uma passagem estreita e empoeirada. No interior, apoiada em um suporte de armas, esta uma lamina dupla. As laminas são escuras, presas uma a outra por correntes, mas o seu punho tem um detalhe estranho, em um formato que voce nao reconhece. Parece mais uma chave do que uma arma. Voce a pega e segue pelo corredor secreto.
 
-P: 1
-
-DECISÃO 6: O que fazer agora?
-#11: Seguir em frente no caminho do penhasco.
+I: Gladio Dupla;w;1;1;1
+#8: Sair da passagem secreta para a proxima sala.

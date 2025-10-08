@@ -1,6 +1,8 @@
-#11
-O caminho no penhasco termina em uma grande porta de pedra que leva a uma fortaleza. Um pequeno buraco lateral parece uma passagem mais discreta.
+As escadas abrem-se para uma grande caverna, iluminada por tochas simples. No centro, batendo os cascos no chao, esta o Minotauro. Ele e uma montanha de musculos e furia, com a cabeca de um touro e o corpo de um gigante. Ele o ve, solta um urro e avanca com o seu grande machado pronto para esmagar. A gloria esta ao seu alcance, se voce conseguir sobreviver.
 
-DECISÃO 7: O que você faz?
-#13: Tentar arrombar a grande porta (Pode ser barulhento).
-#14: Tentar entrar pelo buraco lateral (Pode ser uma emboscada).
+N: Minotauro
+H: 10
+E: 12
+S: 8
+FUGIR: N
+12:13

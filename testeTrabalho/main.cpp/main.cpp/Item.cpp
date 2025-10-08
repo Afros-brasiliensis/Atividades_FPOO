@@ -10,13 +10,7 @@ Item::Item(string nome, char tipo, bool combate, int fa, int dano) :
 
 }
 
-Item::Item() {
-	nome = "";
-	tipo = "";
-	combate = false;
-	fa = 0;
-	dano = 0;
-}
+
 
 string Item::getNome() {
 	return this->nome;
