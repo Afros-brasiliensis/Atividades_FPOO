@@ -131,6 +131,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Monstro.cpp" />
+    <ClCompile Include="Personagem.cpp" />
     <ClCompile Include="SaveManager.cpp" />
   </ItemGroup>
   <ItemGroup>
