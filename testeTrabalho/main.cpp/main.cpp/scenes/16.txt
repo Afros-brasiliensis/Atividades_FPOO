@@ -1,0 +1,8 @@
+Voce pisa na ponte de cordas, que balanca perigosamente. No meio da travessia, voce ve uma gruta na parede de rocha do outro lado. Uma figura sai da escuridao, bloqueando a sua passagem. E uma mulher com serpentes no lugar de cabelos e um olhar petrificante. A Medusa! Ela avanca na sua direcao.
+
+N: Medusa
+H: 8
+E: 11
+FUGIR: N
+I: Lanca Mata-Besta;w;1;0;99
+18:13
