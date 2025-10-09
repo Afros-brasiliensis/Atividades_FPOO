@@ -43,6 +43,7 @@ private:
 	int tesouro; //valor númerico, como moedas de ouro 
 	int provisoes; //número de provisões
 	int armaEquipada; 
+	int energiaMaxima;
 	vector<Item> inventario; //itens do personagem, o vetor armazena itens do tipo Item e aloca dinamincamente
 
 };
