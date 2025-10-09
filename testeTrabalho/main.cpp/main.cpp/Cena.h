@@ -7,8 +7,19 @@ using namespace std;
 
 class Cena {
 public:
-	Cena();
-	~Cena();
+	Cena() :
+		textoPrincipal(""),
+		item(nullptr),
+		inimigo(nullptr),
+		cenaVitoria(0),
+		cenaDerrota(0)
+	{
+	}
+
+	~Cena() {
+		delete item;
+		delete inimigo;
+	}
 	
 	bool carregar(int numeroCena); //para carregar a cena a partir de um arquivo
 

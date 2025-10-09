@@ -11,6 +11,7 @@ public:
 		nome(""),
 		habilidade(0),
 		energia(0),
+		sorte(0),
 		tesouroDrop(0),
 		provisoesDrop(0),
 		itemDrop(nullptr) //inicia como nulo, indicando que não há item drop
@@ -29,6 +30,7 @@ public:
 	int getTesouro();
 	Item* getItemDrop(); //retorna ponteiro para o item drop, ou nullptr se não houver
 	bool estaVivo(); //retorna true se energia > 0
+	int getSorte();
 
 	//Métodos de drop do monstro, caso derrotado
 	void setHabilidade(int valor);
@@ -36,6 +38,8 @@ public:
 	void setNome(string nome);
 	void setTesouro(int valor); 
 	void setItemDrop(Item &item);
+	void setProvisoes(int quantidade);
+	void setSorte(int valor);
 	void setFugaPermitida(bool permitida);
 	void tomarDano(int dano); 
 
@@ -45,11 +49,10 @@ private:
 	int habilidade;
 	int energia;
 	bool fugaPermitida = true;
+	int sorte;
 
 	//itens se ele for morto
 	int tesouroDrop; 
 	int provisoesDrop;
-	Item* itemDrop; //ponteiro para mostrar que ele pode dropar um item ou não
-
-	
+	Item* itemDrop; //ponteiro para mostrar que ele pode dropar um item ou não	
 };

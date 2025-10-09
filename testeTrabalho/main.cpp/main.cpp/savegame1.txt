@@ -1,20 +1,12 @@
-Aventureiro
-<<<<<<< HEAD
+a
+12
+13
 8
-18
-10
 0
 2
-0
-6
-=======
-11
-16
-9
-0
 2
-0
-11
->>>>>>> parent of 3dad911 (to tentando fazer funcionar as pika)
+Laminas do caos;w;1;1;2
+ Pocao de Cura;c;1;0;0
+5
 1
 1 

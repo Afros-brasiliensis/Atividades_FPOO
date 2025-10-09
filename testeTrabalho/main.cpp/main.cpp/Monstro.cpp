@@ -34,6 +34,9 @@ bool Monstro::isFugaPermitida() {
 bool Monstro::estaVivo() {
 	return this->energia > 0;
 }
+int Monstro::getSorte() {
+	return this->sorte;
+}
 
 //setters
 void Monstro::setTesouro(int valor) {
@@ -49,7 +52,6 @@ void Monstro::setEnergia(int valor) {
 	this->energia = valor;
 }
 
-
 void Monstro::setItemDrop(Item &item) {
 	delete this->itemDrop; //apaga a memória do item antigo, se houver. Evita memory leak
 	this->itemDrop = new Item(item); //cria uma cópia nova e permanente do item na memória dinamica
@@ -64,4 +66,12 @@ void Monstro::tomarDano(int dano) {
 	if (this->energia < 0) {
 		this->energia = 0; //evita energia negativa
 		}
+}
+
+void Monstro::setSorte(int valor) {
+	this->sorte = valor;
+}
+
+void Monstro::setProvisoes(int quantidade) {
+	this->provisoesDrop = quantidade;
 }

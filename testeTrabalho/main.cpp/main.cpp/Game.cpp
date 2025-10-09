@@ -80,6 +80,16 @@ void Jogo::criarNovoJogo(int slot) {
     jogador = new Personagem();
     telaDeInventario(true);
 
+    cout << "\nVoce recebe um equipamento basico para a sua jornada." << endl;
+    Item espadaInicial("Laminas do caos", 'w', true, 1, 2);
+    jogador->adicionarItem(espadaInicial);
+    jogador->equiparArma(jogador->getInventario().size() - 1);
+
+    jogador->mostrarInventario();
+    cout << "Pressione Enter para iniciar sua aventura...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.get();
+    
     numeroCenaAtual = 1;
     cenasVisitadas.clear();
     cenasVisitadas.push_back(numeroCenaAtual);
@@ -109,6 +119,13 @@ void Jogo::exibirCreditos() {
 
 void Jogo::telaDeInventario(bool criandoPersonagem) {
     if (criandoPersonagem) {
+
+        string nomeDoHeroi;
+        cout << "\n--- Criacao de Personagem ---" << endl;
+        cout << "Primeiro, digite o nome do seu heroi: ";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        getline(cin, nomeDoHeroi);
+
         cout << "\n--- Criacao de Personagem ---" << endl;
         cout << "Como deseja criar seu personagem?" << endl;
         cout << "1. Distribuir Pontos (Recomendado)" << endl;
@@ -202,12 +219,8 @@ void Jogo::telaDeInventario(bool criandoPersonagem) {
         }
 
         delete jogador;
-        jogador = new Personagem("Aventureiro", habilidade, energia, sorte);
+        jogador = new Personagem(nomeDoHeroi, habilidade, energia, sorte);
         cout << "\n--- Personagem Criado! ---" << endl;
-    }
-
-    if (jogador) {
-        jogador->mostrarInventario();
     }
 
     cout << "Pressione Enter para continuar...";
@@ -288,7 +301,7 @@ void Jogo::telaPrincipalDoJogo(int slot) {
                     else if (escolhaChar == 'C') {
                         jogador->usarProvisao();
                         cout << "Pressione Enter para continuar...";
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+						cin.ignore(1000, '\n'); //ignora até 1000 caracteres ou até nova linha do buffer, pra não dar conflito na leitura
                         cin.get();
                     }
                     else {

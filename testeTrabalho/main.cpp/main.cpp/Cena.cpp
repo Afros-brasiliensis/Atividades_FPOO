@@ -17,21 +17,6 @@ static vector<string> split(const string& s, char separador) { //static faz com 
 }                                                  //4.Move o "cursor" da pedacoStream para a posicao logo depois do; que ela encontrou.
                                                    //5.Se ela conseguiu ler alguma coisa, a funcao getline retorna true, se não, retorna false e o loop quebra.
 
-
-Cena::Cena() :
-    textoPrincipal(""),
-    item(nullptr),
-    inimigo(nullptr),
-    cenaVitoria(0),
-    cenaDerrota(0)
-{
-}
-
-Cena::~Cena() {
-    delete item;
-    delete inimigo;
-}
-
 // --- M�TODO PRINCIPAL DE CARREGAMENTO ---
 
 bool Cena::carregar(int numeroCena) {
@@ -100,6 +85,18 @@ bool Cena::carregar(int numeroCena) {
             // Supondo que voc� crie um m�todo setEnergia em Monstro
             inimigo->setEnergia(stoi(linha.substr(2)));
         }
+        else if (lendoMonstro && linha.rfind("S:", 0) == 0) {
+            inimigo->setSorte(stoi(linha.substr(3))); 
+        }
+        else if (lendoMonstro && linha.rfind("T:", 0) == 0) {
+            inimigo->setTesouro(stoi(linha.substr(3)));
+        }
+        else if (lendoMonstro && linha.rfind("P:", 0) == 0) {
+            inimigo->setProvisoes(stoi(linha.substr(3)));
+        }
+        else if (lendoMonstro && linha.rfind("FUGIR:", 0) == 0) {
+            inimigo->setFugaPermitida(linha.substr(7) != "N");
+        }
         // Linha de VIT�RIA/DERROTA (ex: "12:13") [cite: 128, 142]
         else if (lendoMonstro && linha.find(':') != string::npos) {
             size_t posDoisPontos = linha.find(':');
@@ -115,8 +112,6 @@ bool Cena::carregar(int numeroCena) {
     arquivo.close();
     return true;
 }
-
-// --- M�TODOS GETTER ---
 
 string Cena::getTexto() {
     return this->textoPrincipal;
