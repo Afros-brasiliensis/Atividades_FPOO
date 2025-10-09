@@ -9,7 +9,7 @@ Personagem::Personagem() :
     sorte(0),
     tesouro(0),
     provisoes(0),
-    armaEquipada(nullptr) // Ponteiro da arma comeca nulo
+	armaEquipada(-1) //indice da arma comeca como -1, indicando que nenhuma arma esta equipada
 {
 }
 
@@ -20,7 +20,7 @@ Personagem::Personagem(string nome, int habilidade, int energia, int sorte) :
     sorte(sorte),
     tesouro(0),
     provisoes(2), 
-    armaEquipada(nullptr) 
+    armaEquipada(-1) 
 {
 }
 
@@ -50,15 +50,15 @@ vector<Item> Personagem::getInventario() {
 }
 
 int Personagem::getBonusForcaAtaque() {
-    if (this->armaEquipada != nullptr) {
-        return this->armaEquipada->getBonusForcaAtaque();
+    if (this->armaEquipada != -1) {
+        return this->inventario[this->armaEquipada].getBonusForcaAtaque();
     }
     return 0;
 }
 
 int Personagem::getBonusDano() {
-    if (this->armaEquipada != nullptr) {
-        return this->armaEquipada->getBonusDano();
+    if (this->armaEquipada != -1) {
+        return this->inventario[this->armaEquipada].getBonusDano();
     }
     return 0;
 }
@@ -118,7 +118,7 @@ void Personagem::equiparArma(int indiceDoInventario) { //esse trecho s� serve 
                                                                   //se o if anterior foi falso, o c�digo continua aqui. 
 																  //Essa linha vai at� o vetor do inventario e pega o item na posi��o do indice passado
 	if (itemParaEquipar.getTipo() == 'w') { //verifica o tipo do item, se for 'w' (weapon) � uma arma
-        this->armaEquipada = &itemParaEquipar;
+        this->armaEquipada = indiceDoInventario;
         cout << "Voce equipou: " << itemParaEquipar.getNome() << endl;
     }
     else {
@@ -126,23 +126,20 @@ void Personagem::equiparArma(int indiceDoInventario) { //esse trecho s� serve 
     }
 }
 
-void Personagem::desequiparArma(int indiceDoInventario) {
-    if (this->armaEquipada == nullptr) {
-        cout << "Nenhuma arma esta equipada." << endl;
+void Personagem::desequiparArma() {
+    // 1. Verifica se ha alguma arma equipada
+    if (this->armaEquipada == -1) {
+        cout << "Nenhuma arma esta equipada para desequipar." << endl;
         return;
     }
-    if (indiceDoInventario < 0 || indiceDoInventario >= this->inventario.size()) {
-        cout << "Selecao invalida." << endl;
-        return;
-    }
-    Item& itemParaDesequipar = this->inventario[indiceDoInventario];
-    if (&itemParaDesequipar == this->armaEquipada) {
-        this->armaEquipada = nullptr;
-        cout << "Voce desequipou: " << itemParaDesequipar.getNome() << endl;
-    }
-    else {
-        cout << "Este item nao esta equipado." << endl;
-    }
+
+    // 2. Pega o nome da arma antes de a desequipar (para a mensagem)
+    string nomeArma = this->inventario[this->armaEquipada].getNome();
+
+    // 3. Acao de desequipar: reseta o indice para -1
+    this->armaEquipada = -1;
+
+    cout << "Voce desequipou: " << nomeArma << endl;
 }
 
 void Personagem::mostrarInventario() { //m�todo para mostrar o invent�rio do personagem e seus atributos
@@ -152,7 +149,14 @@ void Personagem::mostrarInventario() { //m�todo para mostrar o invent�rio do
     cout << "Tesouro: " << this->tesouro << " | Provisoes: " << this->provisoes << endl;
     cout << "--------------------" << endl;
     cout << "Equipamento:" << endl;
-    cout << "  Arma: " << (this->armaEquipada ? this->armaEquipada->getNome() : "Nenhuma") << endl; //? � um ent�o
+
+    string nomeArma = "Nenhuma"; // Comeca com o valor padrao "Nenhuma"
+    // Verifica se o indice da arma e valido (diferente de -1)
+    if (this->armaEquipada != -1) {
+        // Se for valido, pega o nome da arma na posicao correta do inventario
+        nomeArma = this->inventario[this->armaEquipada].getNome();
+    }
+    cout << "  Arma: " << nomeArma << endl; 
 	cout << "--------------------" << endl;                                                         //ou seja, se tiver uma arma equipada, getNome da arma
 	cout << "Itens na mochila:" << endl;    												 //se n�o tiver, mostra "Nenhuma"                                   
 	if (this->inventario.empty()) {  //aqui � onde ele vai printar os itens do invent�rio

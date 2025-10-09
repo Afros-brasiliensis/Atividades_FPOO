@@ -24,7 +24,7 @@ public:
 	int getBonusForcaAtaque();
 	int getBonusDano();
 	void equiparArma(int indiceDoInventario); 
-	void desequiparArma(int indiceDoInventario);
+	void desequiparArma();
 	vector<Item> getInventario();
 
 	//Métodos para funcionamento do inventário
@@ -42,7 +42,7 @@ private:
 	int sorte; 
 	int tesouro; //valor númerico, como moedas de ouro 
 	int provisoes; //número de provisões
-	Item* armaEquipada; //ponteiro para o item do tipo arma que pode estar equipado 
+	int armaEquipada; 
 	vector<Item> inventario; //itens do personagem, o vetor armazena itens do tipo Item e aloca dinamincamente
 
 };
