@@ -1,4 +1,5 @@
 Aventureiro
+<<<<<<< HEAD
 8
 18
 10
@@ -6,5 +7,14 @@ Aventureiro
 2
 0
 6
+=======
+11
+16
+9
+0
+2
+0
+11
+>>>>>>> parent of 3dad911 (to tentando fazer funcionar as pika)
 1
 1 
