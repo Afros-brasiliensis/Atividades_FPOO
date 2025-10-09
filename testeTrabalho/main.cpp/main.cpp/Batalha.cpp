@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-<<<<<<< HEAD
 #include <cstdlib> // Para rand()
 #include "Batalha.h"
 
@@ -133,9 +132,9 @@ void Batalha::turnoDoInimigo() {
 }
 
 int
-=======
 #include <cstdlib> 
-#include "Batalha.h"
+#include "
+Batalha.h"
 
 Batalha::Batalha(Personagem* jogador, Monstro* inimigo) :
     jogador(jogador),
@@ -279,4 +278,3 @@ int Batalha::calcularForcaAtaque(int habilidade) {
     int rolagem = rand() % 10 + 1; // Gera um numero de 1 a 10
     return habilidade + rolagem;
 }
->>>>>>> df300ded250e4d14957b305f73abd9d621ebbb3b
