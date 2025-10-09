@@ -65,24 +65,27 @@ void Batalha::turnoDoJogador() {
             cout << "Deseja Testar sua Sorte para ampliar o dano? (S/N): ";
             cin >> usarSorteEscolha;
 
+            int bonusDeDano = jogador->getBonusDano(); // Pega o bonus da arma equipada
+
             if (usarSorteEscolha == 'S' || usarSorteEscolha == 's') {
                 if (jogador->usarSorte()) {
                     cout << "GOLPE DE SORTE! O dano e dobrado!" << endl;
-                    inimigo->tomarDano(4);
+                    inimigo->tomarDano(4 + bonusDeDano); // Dano de sorte + bonus da arma
                 }
                 else {
                     cout << "AZAR! Seu golpe foi mais fraco." << endl;
-                    inimigo->tomarDano(1);
+                    inimigo->tomarDano(1 + bonusDeDano); // Dano de azar + bonus da arma
                 }
             }
             else {
-                inimigo->tomarDano(2); // Dano normal
+                inimigo->tomarDano(2 + bonusDeDano); // Dano normal + bonus da arma
             }
         }
         else {
             cout << "O inimigo defendeu o seu ataque." << endl;
         }
     }
+
     else if (escolha == 2) { // USAR ITEM
         vector<Item> inventario = jogador->getInventario();
         cout << "Qual item voce quer usar?" << endl;
