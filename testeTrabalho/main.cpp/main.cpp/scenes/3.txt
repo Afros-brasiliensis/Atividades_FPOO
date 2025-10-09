@@ -4,5 +4,5 @@ N: Satiro Batedor
 H: 7
 E: 6
 FUGIR: N
-I: Pocao de Cura;c;1;0;0
+P: 1
 5:13
