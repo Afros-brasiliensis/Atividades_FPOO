@@ -249,12 +249,18 @@ void Jogo::telaPrincipalDoJogo(int slot) {
             Batalha batalha(jogador, cenaAtual.getInimigo());
             bool vitoria = batalha.executar();
             if (vitoria) {
-                jogador->adicionarTesouro(cenaAtual.getInimigo()->getTesouro());
+                int tesouro = cenaAtual.getInimigo()->getTesouro();
+				int provisoes = cenaAtual.getInimigo()->getProvisoes();
+
                 // Adicionar provisões se houver
                 Item* itemDrop = cenaAtual.getInimigo()->getItemDrop();
+				jogador->adicionarTesouro(tesouro);
+				jogador->adicionarProvisao(provisoes); 
                 if (itemDrop) {
                     jogador->adicionarItem(*itemDrop);
                 }
+
+				cout << "Voce recuperou " << tesouro << " de tesouro e " << provisoes << " provisao(oes)." << endl;
                 numeroCenaAtual = cenaAtual.getCenaVitoria();
             }
             else {

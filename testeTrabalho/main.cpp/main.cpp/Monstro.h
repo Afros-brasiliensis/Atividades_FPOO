@@ -28,6 +28,7 @@ public:
 	int getEnergia();
 	bool isFugaPermitida();
 	int getTesouro();
+	int getProvisoes();
 	Item* getItemDrop(); //retorna ponteiro para o item drop, ou nullptr se não houver
 	bool estaVivo(); //retorna true se energia > 0
 	int getSorte();

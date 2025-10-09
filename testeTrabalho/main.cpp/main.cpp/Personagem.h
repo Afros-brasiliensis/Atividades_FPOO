@@ -29,6 +29,7 @@ public:
 
 	//Métodos para funcionamento do inventário
 	void adicionarItem(Item &item);
+	void adicionarProvisao(int quantidade);
 	void usarProvisao(); //recupera 4 pontos de vida
 	void adicionarTesouro(int valor);
 	void mostrarInventario();

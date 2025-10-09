@@ -37,6 +37,9 @@ bool Monstro::estaVivo() {
 int Monstro::getSorte() {
 	return this->sorte;
 }
+int Monstro::getProvisoes() {
+	return this->provisoesDrop;
+}
 
 //setters
 void Monstro::setTesouro(int valor) {
