@@ -17,11 +17,8 @@ static vector<string> split(const string& s, char separador) { //static faz com 
 }                                                  //4.Move o "cursor" da pedacoStream para a posicao logo depois do; que ela encontrou.
                                                    //5.Se ela conseguiu ler alguma coisa, a funcao getline retorna true, se não, retorna false e o loop quebra.
 
-// --- M�TODO PRINCIPAL DE CARREGAMENTO ---
-
 bool Cena::carregar(int numeroCena) {
-    // 1. Limpa os dados da cena anterior para evitar lixo de mem�ria
-    delete item;
+    delete item; //Limpa tudo da cena anterior pra nao dar conflito e puxar dados errados
     item = nullptr;
     delete inimigo;
     inimigo = nullptr;
@@ -31,36 +28,39 @@ bool Cena::carregar(int numeroCena) {
     cenaVitoria = 0;
     cenaDerrota = 0;
 
-    // 2. Abre o arquivo da cena (ex: "cenas/1.txt")
-    ifstream arquivo("scenes/" + to_string(numeroCena) + ".txt");
-    if (!arquivo.is_open()) {
+    //Aqui é onde ele abre o arquivo da cena
+	ifstream arquivo("scenes/" + to_string(numeroCena) + ".txt"); //ifstream é o "leitor de arquivos", ele junta o nome da pasta "scenes/" com o numero da cena e a extensao .txt
+    if (!arquivo.is_open()) { //verifica se o arquivo foi encontrado 
         cerr << "Erro: Nao foi possivel abrir o arquivo da cena " << numeroCena << endl;
-        return false; // Retorna false se o arquivo n�o existir (pode ser o fim do jogo)
+        return false; // Retorna false se o arquivo nao existir (pode ser o fim do jogo)
     }
 
+    //Aqui e onde entra o loop de leitura do arquivo
     string linha;
-    bool lendoMonstro = false;
+    bool lendoMonstro = false; //isso indica se a cena tem um monstro ou nao, ou seja, se e um combate ou nao 
 
-    // 3. L� o arquivo linha por linha
-    while (getline(arquivo, linha)) {
-        if (linha.empty()) continue;
+    while (getline(arquivo, linha)) {     //Le o arquivo linha por linha
+        if (linha.empty()) continue; //Pula linhas vazias
 
-        // 4. Interpreta cada tipo de linha de acordo com as regras do PDF
-
-        // Linha de ESCOLHA (come�a com '#') [cite: 101, 108, 109, 110]
-        if (linha[0] == '#') {
-            size_t posDoisPontos = linha.find(':');
-            string numStr = linha.substr(1, posDoisPontos - 1);
-            string texto = linha.substr(posDoisPontos + 2); // Pula o ':' e o espa�o
-            cenasDestino.push_back(stoi(numStr));
-            textoEscolhas.push_back(texto);
+        //Essa e provavelmente a parte mais importante de todo o codigo, pra interpretar o que esta escrito 
+        if (linha[0] == '#') { //Verifica se a linha comeca com #, o que indica que e uma escolha do jogador
+            size_t posDoisPontos = linha.find(':'); //Procura pelo caractere : dentro da string linha e guarda a sua posicao (indice) na variavel posDoisPontos
+			string numStr = linha.substr(1, posDoisPontos - 1); //extrai a parte da string que vem depois do # e antes do :, ou seja, o numero da cena destino
+			                                                    //linha.substr(1, posDoisPontos - 1) significa que ele vai pegar a substring de linha, começando no indice 1 (o caractere depois do #)
+			string texto = linha.substr(posDoisPontos + 2); //Extrai a parte da linha que contem o texto da escolha que sera mostrado ao jogador. Ex: "Seguir pelo corredor"
+			cenasDestino.push_back(stoi(numStr)); //stoi converte a string para um inteiro e adiciona esse numero na lista de cenas destino
+			                                      //tipo, o numero 2, que antes era um texto, agora vira um numero mesmo e entra na lista de cenas destino
+			textoEscolhas.push_back(texto); //guarda o texto da escolha na lista de textos das escolhas
+			//todo esse trecho acima serve para interpretar linhas do tipo "#2: Seguir pelo corredor"
         }
-        // Linha de ITEM (come�a com 'I:') [cite: 107, 127, 141, 143]
-        else if (linha.rfind("I:", 0) == 0) {
-            vector<string> dados = split(linha.substr(2), ';'); // Pula o "I:"
-            // nome;tipo;combate;FA;dano
-            if (dados.size() == 5) {
-                Item* novoItem = new Item(dados[0], dados[1][0], stoi(dados[2]), stoi(dados[3]), stoi(dados[4]));
+
+        // Linha para interpretacao de item
+        else if (linha.rfind("I:", 0) == 0) { //verifica se a linha atual comeca com "I:", o que indica que e um item
+            vector<string> dados = split(linha.substr(2), ';'); //Essa parte quebra a string em varias partes, como pedacos
+			                                                    //linha.substr(2) corta a string a partir da posicao 2, ou seja, remove o "I:" do comeco
+																//dai a partir dessa nova string quebrada, split vai dividir ela em varias partes, usando o ; como separador
+            if (dados.size() == 5) { //verifica se o item foi quebrado em 5 atributos, que e o padrao esperado
+                Item* novoItem = new Item(dados[0], dados[1][0], stoi(dados[2]), stoi(dados[3]), stoi(dados[4])); 
                 if (lendoMonstro && inimigo) {
                     inimigo->setItemDrop(*novoItem); // Define o item que o monstro dropa
                     delete novoItem; // A c�pia foi feita, podemos deletar o tempor�rio
