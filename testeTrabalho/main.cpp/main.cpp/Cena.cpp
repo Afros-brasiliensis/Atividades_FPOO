@@ -60,32 +60,32 @@ bool Cena::carregar(int numeroCena) {
 			                                                    //linha.substr(2) corta a string a partir da posicao 2, ou seja, remove o "I:" do comeco
 																//dai a partir dessa nova string quebrada, split vai dividir ela em varias partes, usando o ; como separador
             if (dados.size() == 5) { //verifica se o item foi quebrado em 5 atributos, que e o padrao esperado
-                Item* novoItem = new Item(dados[0], dados[1][0], stoi(dados[2]), stoi(dados[3]), stoi(dados[4])); 
-                if (lendoMonstro && inimigo) {
-                    inimigo->setItemDrop(*novoItem); // Define o item que o monstro dropa
-                    delete novoItem; // A c�pia foi feita, podemos deletar o tempor�rio
+                Item* novoItem = new Item(dados[0], dados[1][0], stoi(dados[2]), stoi(dados[3]), stoi(dados[4])); //essa linha cria o objeto item na memoria
+				                                                                                                  //dados[n] sao os atributos do item, que foram separados pelo split
+				if (lendoMonstro && inimigo) { //verifica se a cena tem um monstro e se o objeto inimigo foi criado
+					inimigo->setItemDrop(*novoItem); //chama o metodo setItemDrop do monstro, passando o item que foi criado
+                    delete novoItem; // A copia foi feita, podemos deletar o temporario
                 }
                 else {
-                    this->item = novoItem; // Item encontrado na cena
+                    this->item = novoItem; // Item encontrado na cena, sem precisar ser drop de monstro
                 }
             }
         }
-        // Linha de NOME DO MONSTRO (come�a com 'N:') [cite: 120, 135]
+		//Se a linha começar com N:, e um monstro
         else if (linha.rfind("N:", 0) == 0) {
-            lendoMonstro = true;
-            inimigo = new Monstro(linha.substr(2), 0, 0); // Cria o monstro, stats v�m depois
+			lendoMonstro = true; //ativa a funcao que indica que a cena tem um monstro
+			inimigo = new Monstro(linha.substr(2), 0, 0); // Cria o monstro com o nome da linha, habilidade e energia 0 por enquanto
         }
-        // Linha de HABILIDADE do monstro [cite: 122, 136]
         else if (lendoMonstro && linha.rfind("H:", 0) == 0) {
-            // Supondo que voc� crie um m�todo setHabilidade em Monstro
-            inimigo->setHabilidade(stoi(linha.substr(2)));
+            //Trecho para ler a habilidade do monstro
+            //Primeiro verifica se e uma cena de monstro e procura o H: na string
+            inimigo->setHabilidade(stoi(linha.substr(2))); //se o if for verdadeiro, quebra a string e pega o numero que vem depois do H:
         }
-        // Linha de ENERGIA do monstro [cite: 124, 138]
+		//A partir daqui, sao trechos parecidos com o de cima, mas para outros atributos do monstro
         else if (lendoMonstro && linha.rfind("E:", 0) == 0) {
-            // Supondo que voc� crie um m�todo setEnergia em Monstro
             inimigo->setEnergia(stoi(linha.substr(2)));
         }
-        else if (lendoMonstro && linha.rfind("S:", 0) == 0) {
+        else if (lendoMonstro && linha.rfind("S:", 0) == 0) { //monstro pode ter sorte, mesmo que no momento nao seja usado
             inimigo->setSorte(stoi(linha.substr(3))); 
         }
         else if (lendoMonstro && linha.rfind("T:", 0) == 0) {
@@ -94,26 +94,27 @@ bool Cena::carregar(int numeroCena) {
         else if (lendoMonstro && linha.rfind("P:", 0) == 0) {
             inimigo->setProvisoes(stoi(linha.substr(3)));
         }
-        else if (lendoMonstro && linha.rfind("FUGIR:", 0) == 0) {
-            inimigo->setFugaPermitida(linha.substr(7) != "N");
+		else if (lendoMonstro && linha.rfind("FUGIR:", 0) == 0) { //monstro pode permitir ou nao a fuga do jogador
+			inimigo->setFugaPermitida(linha.substr(7) != "N"); //se a string depois do FUGIR: for diferente de N, a fuga e permitida
         }
-        // Linha de VIT�RIA/DERROTA (ex: "12:13") [cite: 128, 142]
-        else if (lendoMonstro && linha.find(':') != string::npos) {
-            size_t posDoisPontos = linha.find(':');
-            this->cenaVitoria = stoi(linha.substr(0, posDoisPontos));
-            this->cenaDerrota = stoi(linha.substr(posDoisPontos + 1));
+		else if (lendoMonstro && linha.find(':') != string::npos) { //primeiro verifica se ainda estamos falando de um monstro e se a linha tem um :
+			                                                        //!= string::npos significa que o caractere foi encontrado na string
+			size_t posDoisPontos = linha.find(':'); //encontra a posicao do :, exemplo: 12:13, onde o : esta na posicao 2
+			                                        //posDoisPontos agora vale 2
+			this->cenaVitoria = stoi(linha.substr(0, posDoisPontos)); //corta a string e comeca na posicao 0, pegando tudo ate o :, ou seja, o numero da cena de vitoria
+			this->cenaDerrota = stoi(linha.substr(posDoisPontos + 1)); //faz o mesmo, mas agora pegando o numero da cena de derrota
         }
-        // Se n�o for nenhuma das anteriores, � texto da hist�ria
-        else {
+		else { //Se a linha nao comeca com #, I:, N:, H:, E:, S:, T:, P:, FUGIR: ou nao tem :, entao e parte do texto principal da cena
             textoPrincipal += linha + "\n";
         }
     }
 
-    arquivo.close();
-    return true;
+	arquivo.close(); //fecha o arquivo depois de ler tudo
+	return true; //retorna true para indicar que a cena foi carregada com sucesso
 }
 
-string Cena::getTexto() {
+//Métodos para obter as informações da cena
+string Cena::getTexto() { 
     return this->textoPrincipal;
 }
 
