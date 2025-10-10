@@ -228,7 +228,7 @@ void Jogo::telaDeInventario(bool criandoPersonagem) {
     cin.get();
 }
 
-void Jogo::telaPrincipalDoJogo(int slot) {//versao arrumada?
+void Jogo::telaPrincipalDoJogo(int slot) {//versao arrumada
     bool jogoAtivo = true;
     while (jogoAtivo && jogador->estaVivo()) {
         salvarProgresso(slot);
@@ -300,7 +300,7 @@ void Jogo::telaPrincipalDoJogo(int slot) {//versao arrumada?
                     escolheuAcaoDaCena = true;
                 }
                 catch (const invalid_argument& e) {
-                    char escolhaChar = toupper(escolhaStr[0]);
+                    char escolhaChar = toupper(escolhaStr[0]);// esse bloco vai executar se o stoi falhou, ai da pra ter certeza que o jogador digitou uma letra
                     if (escolhaChar == 'I') {
                         abrirInventario();
                     }
@@ -368,7 +368,7 @@ void Jogo::abrirInventario() {
 }
 
 void Jogo::processarEscolha(int escolha) {
-    const auto& destinos = cenaAtual.getCenasDestino();
+	const auto& destinos = cenaAtual.getCenasDestino();//constante referencia para o vetor de destinos da cena atual, alem de nao dizer o tipo da variavel, constante definida, ou seja, nao muda em outra parte do codigo
     if (escolha > 0 && escolha <= destinos.size()) {
         numeroCenaAtual = destinos[escolha - 1];
     }
