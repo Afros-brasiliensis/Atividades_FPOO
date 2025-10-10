@@ -228,7 +228,7 @@ void Jogo::telaDeInventario(bool criandoPersonagem) {
     cin.get();
 }
 
-void Jogo::telaPrincipalDoJogo(int slot) {
+void Jogo::telaPrincipalDoJogo(int slot) {//versao arrumada?
     bool jogoAtivo = true;
     while (jogoAtivo && jogador->estaVivo()) {
         salvarProgresso(slot);
