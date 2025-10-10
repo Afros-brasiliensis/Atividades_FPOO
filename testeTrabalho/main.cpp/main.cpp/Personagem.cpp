@@ -75,7 +75,7 @@ void Personagem::curar(int cura) { //para curar o personagem, sendo possivel usa
 
     if (this->energia > this->energiaMaxima) { //verifica se a energia n�o ultrapassou o m�ximo
         this->energia = this->energiaMaxima; //se ultrapassou, seta a energia para o m�ximo
-	}
+	}   
 }
 
 bool Personagem::usarSorte() {
@@ -102,13 +102,19 @@ void Personagem::adicionarItem(Item& item) { //aqui a gente passa o item por ref
 void Personagem::usarProvisao() { //diferente do metodo curar, esse metodo � s� pro jogador, usa um item para se curar
     if (this->provisoes > 0) { //verifica se tem provisoes
         this->provisoes--; 
-        this->energia += 4; // Uma provisao recupera sempre 4 pontos de vida
+		energia += 4; //recupera 4 pontos de energia
+        if (energiaMaxima - energia < 4) //se a diferenca entre a energia maxima e a atual for menor que 4
+            energia = energiaMaxima; //seta a energia para o maximo
+        else 
+			energia += 4;; //chama o metodo curar para recuperar 4 pontos de energia
+        
         cout << "Voce usou uma provisao. Energia recuperada." << endl;
     }
     else {
         cout << "Voce nao tem mais provisoes!" << endl;
     }
 }
+
 
 void Personagem::adicionarProvisao(int quantidade) { //adiciona provisoes ao personagem
     this->provisoes += quantidade;
