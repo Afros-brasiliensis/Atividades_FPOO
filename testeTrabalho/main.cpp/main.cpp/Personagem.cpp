@@ -101,10 +101,7 @@ void Personagem::usarProvisao() { //diferente do metodo curar, esse metodo � s
     if (this->provisoes > 0) { //verifica se tem provisoes
         this->provisoes--; 
 		energia += 4; //recupera 4 pontos de energia
-        if (energiaMaxima - energia < 4) //se a diferenca entre a energia maxima e a atual for menor que 4
-            energia = energiaMaxima; //seta a energia para o maximo
-        else 
-			energia += 4;; //chama o metodo curar para recuperar 4 pontos de energia
+        curar(4); //chama o metodo curar para recuperar 4 pontos de energia
         
         cout << "Voce usou uma provisao. Energia recuperada." << endl;
     }
