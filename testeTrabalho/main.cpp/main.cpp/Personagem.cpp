@@ -6,7 +6,6 @@ Personagem::Personagem() :
     nome(""),
     habilidade(0),
     energia(0),
-    energiaMaxima(0),
     sorte(0),
     tesouro(0),
     provisoes(0),
@@ -20,7 +19,6 @@ Personagem::Personagem(string nome, int habilidade, int energia, int sorte) :
     energia(energia),
     sorte(sorte),
     tesouro(0),
-    energiaMaxima(energia),
     provisoes(2), 
     armaEquipada(-1) 
 {
@@ -73,8 +71,8 @@ void Personagem::tomarDano(int dano) {
 void Personagem::curar(int cura) { //para curar o personagem, sendo possivel usar em algumas cenas por exemplo
     this->energia += cura;
 
-    if (this->energia > this->energiaMaxima) { //verifica se a energia n�o ultrapassou o m�ximo
-        this->energia = this->energiaMaxima; //se ultrapassou, seta a energia para o m�ximo
+    if (this->energia > 24) { //verifica se a energia n�o ultrapassou o m�ximo
+        this->energia = 24; //se ultrapassou, seta a energia para o m�ximo
 	}   
 }
 
