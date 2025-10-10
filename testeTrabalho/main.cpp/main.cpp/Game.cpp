@@ -1,24 +1,24 @@
 #include "Game.h"
 #include "Batalha.h"
-#include <iostream>
-#include <fstream>
-#include <ctime>
-#include <cstdlib>
-#include <sstream>
-#include <limits>
+#include <iostream>//cout e cin basico
+#include <fstream>//file stream para fluxo de arquivos, ler os .txt, salvar e carregar eles
+#include <ctime>// pra randomizar o tempo quando eu fiz as funções de rand
+#include <cstdlib>//biblioteca padrao do c, ai tem funcoes como o rand
+#include <sstream>// deixa ler uma string como se fosse um arquivo, fluxo de string, funcao split
+#include <limits> //limpar buffer de entrada com isso em especifico cin.ignore(numeric_limits<streamsize>::max(), '\n');
 #include <cctype> // Para a função toupper
 
 using namespace std;
 
 // Função auxiliar para dividir strings, usada no carregamento do save
 static vector<string> split(const string& s, char delimiter) {
-    vector<string> tokens;
-    string token;
-    istringstream tokenStream(s);
-    while (getline(tokenStream, token, delimiter)) {
-        tokens.push_back(token);
+    vector<string> pedacos;
+    string pedaco;
+    istringstream pedacoStream(s);
+    while (getline(pedacoStream, pedaco, delimiter)) {
+        pedacos.push_back(pedaco);
     }
-    return tokens;
+    return pedacos;
 }
 
 Jogo::Jogo() : jogador(nullptr), numeroCenaAtual(0) {
@@ -37,7 +37,7 @@ void Jogo::telaDeAbertura() {
     int escolha = 0;
     while (escolha != 4) {
         cout << "\n==============================" << endl;
-        cout << "      AVENTURA FANTASTICA     " << endl;
+        cout << "     JURAMENTO DO EXILADO     " << endl;
         cout << "==============================" << endl;
         cout << "1. Novo Jogo" << endl;
         cout << "2. Carregar Jogo Salvo" << endl;
@@ -83,7 +83,7 @@ void Jogo::criarNovoJogo(int slot) {
     cout << "\nVoce recebe um equipamento basico para a sua jornada." << endl;
     Item espadaInicial("Laminas do caos", 'w', true, 1, 2);
     jogador->adicionarItem(espadaInicial);
-    jogador->equiparArma(jogador->getInventario().size() - 1);
+    jogador->equiparArma(jogador->getInventario().size() - 1);//pega o indice do ultimo item adicionado ao inventario e equipa ele
 
     jogador->mostrarInventario();
     cout << "Pressione Enter para iniciar sua aventura...";
@@ -271,7 +271,7 @@ void Jogo::telaPrincipalDoJogo(int slot) {//versao arrumada?
             }
         }
         else {
-            system("cls || clear");
+			system("cls || clear");//limpa a tela antes de mostrar o texto da cena(cls para windows, clear para linux)
             cout << cenaAtual.getTexto() << endl;
 
             bool escolheuAcaoDaCena = false;
