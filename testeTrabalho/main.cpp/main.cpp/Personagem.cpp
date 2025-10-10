@@ -71,8 +71,8 @@ void Personagem::tomarDano(int dano) {
 void Personagem::curar(int cura) { //para curar o personagem, sendo possivel usar em algumas cenas por exemplo
     this->energia += cura;
 
-    if (this->energia > 24) { //verifica se a energia n�o ultrapassou o m�ximo
-        this->energia = 24; //se ultrapassou, seta a energia para o m�ximo
+    if (this->energia > 24) { //verifica se a energia nao ultrapassou o maximo
+        this->energia = 24; //se ultrapassou, seta a energia para o maximo
 	}   
 }
 
@@ -97,7 +97,7 @@ void Personagem::adicionarItem(Item& item) { //aqui a gente passa o item por ref
 }
 
 
-void Personagem::usarProvisao() { //diferente do metodo curar, esse metodo � s� pro jogador, usa um item para se curar
+void Personagem::usarProvisao() { //diferente do metodo curar, esse metodo so pro jogador, usa um item para se curar
     if (this->provisoes > 0) { //verifica se tem provisoes
         this->provisoes--; 
 		energia += 4; //recupera 4 pontos de energia
@@ -118,16 +118,16 @@ void Personagem::adicionarTesouro(int valor) { //dinheiro acumulado
     this->tesouro += valor;
 }
 
-void Personagem::equiparArma(int indiceDoInventario) { //esse trecho s� serve para verificar se o indice do inventario que o jogador escolheu � valido
+void Personagem::equiparArma(int indiceDoInventario) { //esse trecho so serve para verificar se o indice do inventario que o jogador escolheu e valido
 	if (indiceDoInventario < 0 || indiceDoInventario >= this->inventario.size()) { //ou seja, se for menor que 0 ou maior que o tamanho do vetor
         cout << "Selecao invalida." << endl; //n�o funciona
         return;
     }
 
-    Item& itemParaEquipar = this->inventario[indiceDoInventario]; //o indice do inventario foi passado por par�metro l� em cima
-                                                                  //se o if anterior foi falso, o c�digo continua aqui. 
-																  //Essa linha vai at� o vetor do inventario e pega o item na posi��o do indice passado
-	if (itemParaEquipar.getTipo() == 'w') { //verifica o tipo do item, se for 'w' (weapon) � uma arma
+    Item& itemParaEquipar = this->inventario[indiceDoInventario]; //o indice do inventario foi passado por parametro la em cima
+                                                                  //se o if anterior foi falso, o codigo continua aqui. 
+																  //Essa linha vai ate o vetor do inventario e pega o item na posi��o do indice passado
+	if (itemParaEquipar.getTipo() == 'w') { //verifica o tipo do item, se for 'w' (weapon) e uma arma
         this->armaEquipada = indiceDoInventario;
         cout << "Voce equipou: " << itemParaEquipar.getNome() << endl;
     }
@@ -137,16 +137,16 @@ void Personagem::equiparArma(int indiceDoInventario) { //esse trecho s� serve 
 }
 
 void Personagem::desequiparArma() {
-    // 1. Verifica se ha alguma arma equipada
+    //Verifica se ha alguma arma equipada
     if (this->armaEquipada == -1) {
         cout << "Nenhuma arma esta equipada para desequipar." << endl;
         return;
     }
 
-    // 2. Pega o nome da arma antes de a desequipar (para a mensagem)
+    //Pega o nome da arma antes de a desequipar (para a mensagem)
     string nomeArma = this->inventario[this->armaEquipada].getNome();
 
-    // 3. Acao de desequipar: reseta o indice para -1
+    //Acao de desequipar: reseta o indice para -1
     this->armaEquipada = -1;
 
     cout << "Voce desequipou: " << nomeArma << endl;
@@ -156,7 +156,7 @@ int Personagem::getIndiceArmaEquipada() {
     return this->armaEquipada;
 }
 
-void Personagem::mostrarInventario() { //m�todo para mostrar o invent�rio do personagem e seus atributos
+void Personagem::mostrarInventario() { //metodo para mostrar o inventario do personagem e seus atributos
 	system("cls"); //limpa a tela
     cout << "\n--- INVENTARIO DE " << this->nome << " ---" << endl;
     cout << "Habilidade: " << this->habilidade << " | Energia: " << this->energia << " | Sorte: " << this->sorte << endl;
@@ -172,8 +172,8 @@ void Personagem::mostrarInventario() { //m�todo para mostrar o invent�rio do
     }
     cout << "  Arma: " << nomeArma << endl; 
 	cout << "--------------------" << endl;                                                         //ou seja, se tiver uma arma equipada, getNome da arma
-	cout << "Itens na mochila:" << endl;    												 //se n�o tiver, mostra "Nenhuma"                                   
-	if (this->inventario.empty()) {  //aqui � onde ele vai printar os itens do invent�rio
+	cout << "Itens na mochila:" << endl;    												 //se nao tiver, mostra "Nenhuma"                                   
+	if (this->inventario.empty()) {  //aqui e onde ele vai printar os itens do invent�rio
         cout << "  (Vazia)" << endl; //se tiver vazio, printa vazio
     }
     else {

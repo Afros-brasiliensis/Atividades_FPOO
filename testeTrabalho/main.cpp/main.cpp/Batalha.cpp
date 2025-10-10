@@ -10,7 +10,6 @@ Batalha::Batalha(Personagem* jogador, Monstro* inimigo) :
 {
 }
 
-// --- METODO PRINCIPAL ---
 bool Batalha::executar() {
     cout << "\n--- A BATALHA COMECOU! ---" << endl;
 
@@ -132,7 +131,6 @@ void Batalha::turnoDoInimigo() {
     if (faInimigo > faJogador) {
         cout << "O inimigo acertou voce!" << endl;
 
-        // CORRIGIDO: Adicionada a logica de Sorte na defesa
         char usarSorteEscolha;
         cout << "Deseja Testar sua Sorte para reduzir o dano? (S/N): ";
         cin >> usarSorteEscolha;
