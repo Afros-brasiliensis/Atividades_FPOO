@@ -98,9 +98,10 @@ void Batalha::turnoDoJogador() {
 
         if (escolhaItem > 0 && escolhaItem <= inventario.size()) {
             Item& itemEscolhido = inventario[escolhaItem - 1];
-            if (itemEscolhido.getNome() == "Pocao de Cura") {
-                cout << "Voce bebe a pocao de cura." << endl;
-                jogador->curar(7);
+            cout << "Tentando usar o item de nome: [" << itemEscolhido.getNome() << "]" << endl;
+            if (itemEscolhido.getNome() == "Pocao de Cura" || itemEscolhido.getNome() == "Frasco com Agua da Fonte") {
+                cout << "Voce usa o item de cura e sente suas forcas a voltar." << endl;
+                jogador->curar(7); 
             }
             else {
                 cout << "Este item nao tem efeito em batalha. Voce perde o turno." << endl;

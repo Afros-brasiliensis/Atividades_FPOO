@@ -151,6 +151,10 @@ void Personagem::desequiparArma() {
     cout << "Voce desequipou: " << nomeArma << endl;
 }
 
+int Personagem::getIndiceArmaEquipada() {
+    return this->armaEquipada;
+}
+
 void Personagem::mostrarInventario() { //m�todo para mostrar o invent�rio do personagem e seus atributos
 	system("cls"); //limpa a tela
     cout << "\n--- INVENTARIO DE " << this->nome << " ---" << endl;

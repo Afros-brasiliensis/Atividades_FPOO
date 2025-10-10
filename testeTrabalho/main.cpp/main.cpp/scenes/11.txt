@@ -2,7 +2,8 @@ As escadas abrem-se para uma grande caverna, iluminada por tochas simples. No ce
 
 N: Minotauro
 H: 10
-E: 12
+E: 175
 S: 8
 FUGIR: N
+T:500
 12:13

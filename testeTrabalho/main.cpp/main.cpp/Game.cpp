@@ -48,7 +48,7 @@ void Jogo::telaDeAbertura() {
 
         if (cin.fail()) {
             cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore(1000, '\n');
             escolha = 0;
         }
 
@@ -87,7 +87,7 @@ void Jogo::criarNovoJogo(int slot) {
 
     jogador->mostrarInventario();
     cout << "Pressione Enter para iniciar sua aventura...";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore(1000, '\n');
     cin.get();
     
     numeroCenaAtual = 1;
@@ -123,7 +123,7 @@ void Jogo::telaDeInventario(bool criandoPersonagem) {
         string nomeDoHeroi;
         cout << "\n--- Criacao de Personagem ---" << endl;
         cout << "Primeiro, digite o nome do seu heroi: ";
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.ignore(1000, '\n');
         getline(cin, nomeDoHeroi);
 
         cout << "\n--- Criacao de Personagem ---" << endl;
@@ -165,7 +165,7 @@ void Jogo::telaDeInventario(bool criandoPersonagem) {
 
                 if (cin.fail() || escolhaAtributo < 1 || escolhaAtributo > 3) {
                     cin.clear();
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cin.ignore(1000, '\n');
                     cout << "Opcao invalida. Tente novamente." << endl;
                     continue;
                 }
@@ -176,7 +176,7 @@ void Jogo::telaDeInventario(bool criandoPersonagem) {
 
                 if (cin.fail() || pontosAdicionar <= 0) {
                     cin.clear();
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cin.ignore(1000, '\n');
                     cout << "Voce deve adicionar um numero positivo de pontos." << endl;
                     continue;
                 }
@@ -224,7 +224,7 @@ void Jogo::telaDeInventario(bool criandoPersonagem) {
     }
 
     cout << "Pressione Enter para continuar...";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore(1000, '\n');
     cin.get();
 }
 
@@ -339,7 +339,7 @@ void Jogo::abrirInventario() {
 
         if (cin.fail()) {
             cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore(1000, '\n');
             cout << "Entrada invalida." << endl;
             continue;
         }
@@ -348,12 +348,19 @@ void Jogo::abrirInventario() {
             noInventario = false;
         }
         else {
-            jogador->equiparArma(escolha - 1);
+			int indiceEscolhido = escolha - 1;
+            
+            if (indiceEscolhido == jogador->getIndiceArmaEquipada()) {
+                jogador->desequiparArma();
+            }
+            else {
+                jogador->equiparArma(indiceEscolhido);
+            }
         }
 
         if (noInventario) { // Pausa apenas se não for sair
             cout << "Pressione Enter para continuar...";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore(1000, '\n');
             cin.get();
         }
     }
@@ -376,7 +383,7 @@ int Jogo::escolherSlot() {
         cin >> slot;
         if (cin.fail() || slot < 1 || slot > 3) {
             cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore(1000, '\n');
             cout << "Opcao invalida." << endl;
             slot = 0;
         }

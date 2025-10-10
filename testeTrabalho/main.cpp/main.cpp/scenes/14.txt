@@ -1,3 +1,4 @@
 A aparencia magica da agua o convence. Voce se aproxima e bebe um gole. A agua e fria e tem um gosto estranho. Por um momento, voce se sente revigorado, parece recuperar um pouco sua forca de vontade. Porem, logo em seguida, uma tontura o atinge, mas passa rapidamente. Voce se sente um pouco mais fraco, mas tambem sortudo por nao ter sido nada pior. Voce segue em frente.
 
+I:Frasco com Agua da Fonte;c;1;0;0
 #5: Continuar pela passagem adiante.

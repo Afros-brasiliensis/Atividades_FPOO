@@ -4,5 +4,6 @@ N: Medusa
 H: 8
 E: 11
 FUGIR: N
-I: Lanca Mata-Besta;w;1;0;99
+T:250
+I: Lanca Mata-Besta;w;1;1;23
 18:13

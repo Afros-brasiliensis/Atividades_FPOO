@@ -25,6 +25,7 @@ public:
 	int getBonusDano();
 	void equiparArma(int indiceDoInventario); 
 	void desequiparArma();
+	int getIndiceArmaEquipada();
 	vector<Item> getInventario();
 
 	//Métodos para funcionamento do inventário

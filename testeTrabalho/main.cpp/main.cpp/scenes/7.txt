@@ -3,4 +3,5 @@ Voce investe seu ombro contra a porta de bronze. Um estrondo forte ecoa por todo
 N: Harpia
 H: 8
 E: 7
-8:13
+T: 100
+11:13
