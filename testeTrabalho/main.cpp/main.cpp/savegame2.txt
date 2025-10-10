@@ -1,10 +1,11 @@
-Aventureiro
-12
-13
-11
+1
+9
+17
+10
 0
-2
 0
-3
+1
+Laminas do caos;w;1;1;2
+1
 1
 1 

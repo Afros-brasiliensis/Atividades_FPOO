@@ -1,11 +1,12 @@
-ka
-9
-30
-7
-0
-0
+asd
+12
+14
 1
+0
+3
+2
 Laminas do caos;w;1;1;2
-5
+ Lanca Mata-Besta;w;1;0;99
+17
 1
 1 
