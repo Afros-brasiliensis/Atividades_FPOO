@@ -6,11 +6,11 @@
 #include <cstdlib>
 #include <sstream>
 #include <limits>
-#include <cctype> // Para a função toupper
+#include <cctype> // Para a funÃ§Ã£o toupper
 
 using namespace std;
 
-// Função auxiliar para dividir strings, usada no carregamento do save
+// FunÃ§Ã£o auxiliar para dividir strings, usada no carregamento do save
 static vector<string> split(const string& s, char delimiter) {
     vector<string> tokens;
     string token;
@@ -137,7 +137,7 @@ void Jogo::telaDeInventario(bool criandoPersonagem) {
 
         int habilidade = 6, energia = 12, sorte = 6;
 
-        if (modo == 2) { // MODO ALEATÓRIO
+        if (modo == 2) { // MODO ALEATÃ“RIO
             cout << "Gerando personagem aleatoriamente..." << endl;
             int pontosParaDistribuir = 12;
             while (pontosParaDistribuir > 0) {
@@ -149,7 +149,7 @@ void Jogo::telaDeInventario(bool criandoPersonagem) {
                 pontosParaDistribuir--;
             }
         }
-        else { // MODO PADRÃO - DISTRIBUIR PONTOS
+        else { // MODO PADRÃƒO - DISTRIBUIR PONTOS
             int pontosParaDistribuir = 12;
             while (pontosParaDistribuir > 0) {
                 system("cls || clear");
@@ -252,7 +252,7 @@ void Jogo::telaPrincipalDoJogo(int slot) {//versao arrumada?
                 int tesouro = cenaAtual.getInimigo()->getTesouro();
 				int provisoes = cenaAtual.getInimigo()->getProvisoes();
 
-                // Adicionar provisões se houver
+                // Adicionar provisÃµes se houver
                 Item* itemDrop = cenaAtual.getInimigo()->getItemDrop();
 				jogador->adicionarTesouro(tesouro);
 				jogador->adicionarProvisao(provisoes); 
@@ -307,7 +307,7 @@ void Jogo::telaPrincipalDoJogo(int slot) {//versao arrumada?
                     else if (escolhaChar == 'C') {
                         jogador->usarProvisao();
                         cout << "Pressione Enter para continuar...";
-						cin.ignore(1000, '\n'); //ignora até 1000 caracteres ou até nova linha do buffer, pra não dar conflito na leitura
+						cin.ignore(1000, '\n'); //ignora atÃ© 1000 caracteres ou atÃ© nova linha do buffer, pra nÃ£o dar conflito na leitura
                         cin.get();
                     }
                     else {
@@ -326,6 +326,7 @@ void Jogo::telaPrincipalDoJogo(int slot) {//versao arrumada?
 
     if (!jogador->estaVivo()) {
         cout << "\n--- VOCE FOI DERROTADO --- \nFim de Jogo." << endl;
+		exit(0);
     }
 }
 
@@ -358,7 +359,7 @@ void Jogo::abrirInventario() {
             }
         }
 
-        if (noInventario) { // Pausa apenas se não for sair
+        if (noInventario) { // Pausa apenas se nÃ£o for sair
             cout << "Pressione Enter para continuar...";
             cin.ignore(1000, '\n');
             cin.get();
@@ -439,7 +440,7 @@ bool Jogo::carregar(int slot) {
         delete jogador;
         jogador = new Personagem(nome, habilidade, energia, sorte);
         jogador->adicionarTesouro(tesouro);
-        // jogador->setProvisoes(provisoes); // Garanta que Personagem.h/cpp tenha este método
+        // jogador->setProvisoes(provisoes); // Garanta que Personagem.h/cpp tenha este mÃ©todo
 
         getline(loadFile, linha);
         int numItens = stoi(linha);
