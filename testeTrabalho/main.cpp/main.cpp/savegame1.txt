@@ -1,14 +1,11 @@
-a
+
 10
-15
-6
-50
+17
+9
+0
 2
-4
+1
 Laminas do caos;w;1;1;2
- Tocha;c;0;0;0
- Lanca Mata-Besta;w;1;0;99
-Pocao de Cura;c;1;0;0
-7
+1
 1
 1 
