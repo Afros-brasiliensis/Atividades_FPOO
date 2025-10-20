@@ -369,7 +369,7 @@ void Jogo::abrirInventario() {
 
 void Jogo::processarEscolha(int escolha) {
 	const auto& destinos = cenaAtual.getCenasDestino();//constante referencia para o vetor de destinos da cena atual, alem de nao dizer o tipo da variavel, constante definida, ou seja, nao muda em outra parte do codigo
-    if (escolha > 0 && escolha <= destinos.size()) {
+    if (escolha > 0 && escolha <= destinos.size()) {//verifica o tamanho
         numeroCenaAtual = destinos[escolha - 1];
     }
     else {
@@ -395,7 +395,7 @@ int Jogo::escolherSlot() {
 void Jogo::salvarProgresso(int slot) {
     if (!jogador) return;
     ofstream saveFile("savegame" + to_string(slot) + ".txt");
-    if (!saveFile.is_open()) return;
+	if (!saveFile.is_open()) return;//se for diferente de aberto, sai da função e continua para salvar o jogo no slot escolhido
 
     saveFile << jogador->getNome() << "\n"
         << jogador->getHabilidade() << "\n"
@@ -404,10 +404,10 @@ void Jogo::salvarProgresso(int slot) {
         << jogador->getTesouro() << "\n"
         << jogador->getProvisoes() << "\n";
 
-    vector<Item> inventario = jogador->getInventario();
-    saveFile << inventario.size() << "\n";
-    for (auto& item : inventario) {
-        saveFile << item.getNome() << ";" << item.getTipo() << ";" << item.isUsavelEmCombate() << ";" << item.getBonusForcaAtaque() << ";" << item.getBonusDano() << "\n";
+	vector<Item> inventario = jogador->getInventario();//pega o inventario do jogador
+    saveFile << inventario.size() << "\n";//quantas linhas de itens tem no inventario
+	for (auto& item : inventario) {//auto deduz o tipo da variavel, nesse caso é Item
+        saveFile << item.getNome() << ";" << item.getTipo() << ";" << item.isUsavelEmCombate() << ";" << item.getBonusForcaAtaque() << ";" << item.getBonusDano() << "\n";//cria um formato organizado para ser lido depois;
     }
 
     saveFile << numeroCenaAtual << "\n";
@@ -416,11 +416,11 @@ void Jogo::salvarProgresso(int slot) {
         saveFile << cena << " ";
     }
     saveFile << "\n";
-    saveFile.close();
+    saveFile.close();//salva o arquivo e fecha ele
 }
 
 bool Jogo::carregar(int slot) {
-    ifstream loadFile("savegame" + to_string(slot) + ".txt");
+	ifstream loadFile("savegame" + to_string(slot) + ".txt");// le arquivos, se o arquivo n existir, ele n abre, ai retorna falso; vai procurar o slot em numero e transformar em string;
     if (!loadFile.is_open()) {
         return false;
     }

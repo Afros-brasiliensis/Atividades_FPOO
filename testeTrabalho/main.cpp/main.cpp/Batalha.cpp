@@ -48,6 +48,7 @@ void Batalha::turnoDoJogador() {
     cout << "Escolha sua acao:" << endl;
     cout << "1. Atacar" << endl;
     cout << "2. Usar Item" << endl;
+    
     cout << "3. Tentar Fugir" << endl;
 
     int escolha;

@@ -1,9 +1,9 @@
-afros
-8
-11
-1
-200
+marcio
+9
+24
 3
+200
+1
 4
 Laminas do caos;w;1;1;2
  Lanca Mata-Besta;w;1;1;23
