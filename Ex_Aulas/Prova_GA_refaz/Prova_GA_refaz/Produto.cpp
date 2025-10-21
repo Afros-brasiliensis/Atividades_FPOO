@@ -43,4 +43,9 @@ bool Produto::produtoIgual(Produto a, Produto b) {
 	return (a.getCodigoDeBarras() == b.getCodigoDeBarras());
 }
 
+void Produto::imprimeProduto() {
+	cout << "Nome: " << this->getNome() << endl;
+	cout << "Preco: " << this->getPreco() << endl;
+	cout << "Codigo de Barras: " << this->getCodigoDeBarras() << endl;
 
+}

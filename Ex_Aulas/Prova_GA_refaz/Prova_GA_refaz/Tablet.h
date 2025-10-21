@@ -25,4 +25,6 @@ public:
 	void setMarca(string marca);
 
 	void setDuracaoBateria(float duracaoBateria);
+	
+	void imprimeTablet();
 };

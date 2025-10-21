@@ -31,3 +31,9 @@ void Tablet::setMarca(string marca) {
 void Tablet::setDuracaoBateria(float duracaoBateria) {
 	this->duracaoBateria = duracaoBateria;
 }
+
+void Tablet::imprimeTablet() {
+	this->imprimeProduto();
+	cout << "Marca: " << this->getMarca() << endl;
+	cout << "Duracao da Bateria: " << this->getDuracaoBateria() << " horas" << endl;
+}

@@ -21,4 +21,6 @@ public:
 	//Setters
 	void setModelo(string modelo);
 	void setArmazenamento(int armazenamento);
+
+	void imprimeSmartphone();
 };
