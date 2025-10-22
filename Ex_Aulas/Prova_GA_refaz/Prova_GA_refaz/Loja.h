@@ -30,13 +30,17 @@ public:
 
 	void infoLoja();
 
-	void editarProduto(int codigoDeBarras, string novoNome, float novoPreco);
+	void editarProduto(int codigoDeBarras);
 
 	void calcularValorEstoque();
 
-	void aplicarDesconto(float percentualDesconto);
+	void aplicarDesconto(int codigoDeBarras, float percentualDesconto);
 
-	void verificaEstoque(Produto* produto);
+	void verificaEstoque(int codigoDeBarras);
+
+	void simularVenda(int codigoDeBarras);
+
+	void listarProdutosAcimaDeValor(float valorMinimo);
 
 };
 

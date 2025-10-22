@@ -16,7 +16,7 @@ public:
 
 	Produto();
 	Produto(string nome, float preco, int codigoDeBarras);
-	~Produto();
+	virtual ~Produto();
 
 	string getNome();
 	float getPreco();
