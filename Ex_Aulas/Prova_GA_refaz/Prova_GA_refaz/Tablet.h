@@ -26,5 +26,5 @@ public:
 
 	void setDuracaoBateria(float duracaoBateria);
 	
-	void imprimeTablet();
+	void imprimeProduto() override;
 };

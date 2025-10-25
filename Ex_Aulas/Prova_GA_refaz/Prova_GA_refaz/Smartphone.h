@@ -22,5 +22,5 @@ public:
 	void setModelo(string modelo);
 	void setArmazenamento(int armazenamento);
 
-	void imprimeSmartphone();
+	void imprimeProduto() override;
 };

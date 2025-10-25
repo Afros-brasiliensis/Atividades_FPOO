@@ -22,6 +22,6 @@ public:
 	void setMarca(string marca);
 	void setTamanhoTela(int tamanhoTela);
 
-	void imprimeLaptop();
+	void imprimeProduto() override;
 
 };

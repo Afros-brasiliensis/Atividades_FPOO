@@ -28,7 +28,7 @@ public:
 
 	bool produtoIgual(Produto a, Produto b);
 
-	void imprimeProduto();		
+	virtual void imprimeProduto();		
 
 
 };

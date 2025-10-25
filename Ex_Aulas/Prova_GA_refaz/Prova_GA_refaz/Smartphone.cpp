@@ -33,8 +33,8 @@ void Smartphone::setArmazenamento(int armazenamento) {
 	this->armazenamento = armazenamento;
 }
 
-void Smartphone::imprimeSmartphone() {
-	this->imprimeProduto();
+void Smartphone::imprimeProduto() {
+	Produto::imprimeProduto();
 	cout << "Modelo: " << this->getModelo() << endl;
 	cout << "Armazenamento: " << this->getArmazenamento() << " GB" << endl;
 }
