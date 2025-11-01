@@ -131,6 +131,7 @@
     <ClInclude Include="Tablet.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Laptop.cpp" />
     <ClCompile Include="Loja.cpp" />
     <ClCompile Include="main.cpp" />

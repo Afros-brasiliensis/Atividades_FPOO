@@ -32,8 +32,8 @@ void Laptop::setTamanhoTela(int tamanhoTela) {
 	this->tamanhoTela = tamanhoTela;
 }
 
-void Laptop::imprimeLaptop() {
-	this->imprimeProduto();
+void Laptop::imprimeProduto() {
+	Produto::imprimeProduto();
 	cout << "Marca: " << this->getMarca() << endl;
 	cout << "Tamanho da Tela: " << this->getTamanhoTela() << " polegadas" << endl;
 }

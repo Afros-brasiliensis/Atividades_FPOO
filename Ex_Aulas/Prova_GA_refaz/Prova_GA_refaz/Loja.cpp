@@ -98,7 +98,7 @@ void Loja::editarProduto(int codigoDeBarras){
 	getline(cin, novoNome);
 	cout << "Digite o novo preco do produto: ";
 	cin >> novoPreco;
-	cin.ignore();
+	cin.ignore(1000, '\n');
 	if (novoNome != "") {
 		produto->setNome(novoNome);
 	}
@@ -114,7 +114,7 @@ void Loja::editarProduto(int codigoDeBarras){
 		getline(cin, novoModelo);
 		cout << "Digite o novo armazenamento do smartphone (em GB): ";
 		cin >> novoArmazenamento;
-		cin.ignore();
+		cin.ignore(1000, '\n');
 		smartphone->setModelo(novoModelo);
 		smartphone->setArmazenamento(novoArmazenamento);
 	}
@@ -126,7 +126,7 @@ void Loja::editarProduto(int codigoDeBarras){
 		getline(cin, novaMarca);
 		cout << "Digite a nova duracao da bateria do tablet (em horas): ";
 		cin >> novaDuracaoBateria;
-		cin.ignore();
+		cin.ignore(1000, '\n');
 		tablet->setMarca(novaMarca);
 		tablet->setDuracaoBateria(novaDuracaoBateria);
 	}
@@ -138,7 +138,7 @@ void Loja::editarProduto(int codigoDeBarras){
 		getline(cin, novaMarca);
 		cout << "Digite o novo tamanho da tela do laptop (em polegadas): ";
 		cin >> novoTamanhoTela;
-		cin.ignore();
+		cin.ignore(1000, '\n');
 		laptop->setMarca(novaMarca);
 		laptop->setTamanhoTela(novoTamanhoTela);
 	}
@@ -210,7 +210,7 @@ void Loja::aplicarDesconto(int codigoDeBarras, float percentualDesconto) {
 void Loja::verificaEstoque(int codigoDeBarras) {
 	for (int i = 0; i < this->quantidadeProdutos; i++) {
 		if (this->estoque[i]->getCodigoDeBarras() == codigoDeBarras) {
-			cout << "Produto com codigo de barras " << codigoDeBarras << " esta em estoque. " << endl;
+			cout << "Produto com codigo de barras " << codigoDeBarras << " esta em estoque. Quantidade disponivel: 1 " << endl;
 			return;
 		}
 	}
