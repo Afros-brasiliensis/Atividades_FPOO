@@ -14,8 +14,8 @@ class Pilha{
 
         void push(T object);//Adiciona um elemento no topo da pilha
         T pop();//Remove o elemento do topo da pilha
-        T top();//Retorna o elemento do topo da pilha sem remover
-        bool Find();//Verifica se a pilha esta vazia
+        void top();//Retorna o elemento do topo da pilha sem remover
+        bool Find(const T& object);//Acha um valor dentro da pilha
         bool isEmpty();//Verifica se a pilha esta vazia
 
         int getTamanho();//Retorna o tamanho da pilha
@@ -49,3 +49,56 @@ void Pilha<T>::push()<T object>{
     }
 
 }
+
+template <typename T>
+void Pilha<T>::pop(){
+    if(isEmpty()){
+        cout << "Pilha vazia, não é possível remover esse elemento". << endl;
+    }
+    else{
+        Nodo<T>* auxiliar = topo;
+        topo = topo->getAnterior();
+        delete auxiliar;
+        tamanho--;
+    }
+}
+
+template <typename T>
+void Pilha<T>::top(){
+    if(isEmpty()){
+        cout << "Pilha vazia." << endl;
+    }
+    else{
+        cout << "Elemento no topo: " << topo->getValor() << endl;
+                return topo->getValor();
+    }
+}
+
+template <typename T>
+bool Pilha<T>::Find(){
+    if(isEmpty()){
+        return false;
+    }
+    Nodo<T>* auxiliar = topo;
+    do {
+        if(auxiliar->getValor() == object){
+            return true;
+        }
+        auxiliar = auxiliar->getAnterior();
+    }
+    while(auxiliar != nullptr);
+    return false;
+}
+
+template <typename T>
+int Pilha<T>::getTamanho(){
+    return tamanho;
+}
+
+
+template <typename T>
+bool Pilha<T>::isEmpty(){
+    return tamanho == 0;
+}
+
+template <typename T>
