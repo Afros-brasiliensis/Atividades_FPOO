@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+Grau_B/Aula_1/testes_em_aula/.vscode/settings.json
+Grau_B/Aula_1/testes_em_aula/.vscode/tasks.json
