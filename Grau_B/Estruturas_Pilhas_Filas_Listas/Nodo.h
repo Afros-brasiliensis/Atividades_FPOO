@@ -13,10 +13,10 @@ public:
 
 
     void setAnterior(Nodo<T>* nodoAnterior);//Seta o nodo anterior(que pega informacao de tras)
-    Nodo<T>* getAnterior();
+    Nodo<T>* getAnterior();//Pega o valor do nodo anterior
     
     void setProximo(Nodo<T>* proximoNodo);//Seta o proximo nodo(que pega informacao da frente)
-    Nodo<T>* getProximo();
+    Nodo<T>* getProximo();//Pega o valor do proximo nodo
 
     T getValor();
 

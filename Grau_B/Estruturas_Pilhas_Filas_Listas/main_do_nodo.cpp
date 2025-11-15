@@ -1,30 +1,33 @@
-#include "Nodo.h"
 #include <iostream>
+#include "Pilhas.h"
+using namespace std;
 
-int main(){
-    Nodo<int> nodo1(10);
-    Nodo<int> nodo2(20);
+int main() {
+    Pilha<int> pilha;
 
-    nodo1.setProximo(&nodo2);
-    nodo2.setAnterior(&nodo1);
+    cout << "Adicionando elementos..." << endl;
+    pilha.push(10);
+    pilha.push(20);
+    pilha.push(30);
 
-    // Testando os valores
-    std::cout << "Valor do nodo1: " << nodo1.getValor() << std::endl;
-    std::cout << "Valor do nodo2: " << nodo2.getValor() << std::endl;
+    cout << "Tamanho atual: " << pilha.getTamanho() << endl;
+    cout << "Topo atual: " << pilha.top() << endl;
 
-    // Testando os ponteiros
-    if(nodo1.getProximo() == &nodo2){
-        std::cout << "nodo1 aponta para nodo2 corretamente." << std::endl;
-    } else {
-        std::cout << "Erro: nodo1 nao aponta para nodo2." << std::endl;
+    cout << "Procurando valor 20: " << (pilha.Find(20) ? "encontrado!" : "não encontrado!") << endl;
+    cout << "Procurando valor 50: " << (pilha.Find(50) ? "encontrado!" : "não encontrado!") << endl;
+
+    cout << "\nRemovendo topo..." << endl;
+    pilha.pop();
+    cout << "Novo topo: " << pilha.top() << endl;
+    cout << "Tamanho: " << pilha.getTamanho() << endl;
+
+    cout << "\nEsvaziando pilha..." << endl;
+    while (!pilha.isEmpty()) {
+        cout << "Removendo " << pilha.top() << endl;
+        pilha.pop();
     }
 
-    if(nodo2.getAnterior() == &nodo1){
-        std::cout << "nodo2 aponta para nodo1 corretamente." << std::endl;
-    } else {
-        std::cout << "Erro: nodo2 nao aponta para nodo1." << std::endl;
-    }
+    cout << "\nPilha vazia? " << (pilha.isEmpty() ? "Sim" : "Não") << endl;
 
-    return 0;  
-    
+    return 0;
 }

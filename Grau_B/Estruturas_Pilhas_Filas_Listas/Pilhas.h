@@ -1,7 +1,8 @@
 #include "Nodo.h"
+#include <iostream>
+using namespace std;
 
 template <typename T>
-
 class Pilha{
     private:
         Nodo<T>* topo;
@@ -12,9 +13,9 @@ class Pilha{
         Pilha();//Construtor
         ~Pilha();//Destrutor
 
-        void push(T object);//Adiciona um elemento no topo da pilha
-        T pop();//Remove o elemento do topo da pilha
-        void top();//Retorna o elemento do topo da pilha sem remover
+        void push(const T& object);//Adiciona um elemento no topo da pilha
+        void pop();//Remove o elemento do topo da pilha
+        T top();//Retorna o elemento do topo da pilha sem remover
         bool Find(const T& object);//Acha um valor dentro da pilha
         bool isEmpty();//Verifica se a pilha esta vazia
 
@@ -36,7 +37,7 @@ Pilha<T>::~Pilha(){
 }
 
 template <typename T>
-void Pilha<T>::push()<T object>{
+void Pilha<T>::push(const T& object){
     Nodo<T>* novoNodo = new Nodo<T>(object);
     if(isEmpty()){
         this->base = novoNodo;
@@ -53,29 +54,36 @@ void Pilha<T>::push()<T object>{
 template <typename T>
 void Pilha<T>::pop(){
     if(isEmpty()){
-        cout << "Pilha vazia, não é possível remover esse elemento". << endl;
+        cout << "Pilha vazia, não é possível remover esse elemento" << endl;
     }
     else{
         Nodo<T>* auxiliar = topo;
         topo = topo->getAnterior();
+
+        if(topo != nullptr){
+            topo->setProximo(nullptr);
+        }
+        else{
+            base = nullptr; // A pilha ta vazia
+        }
         delete auxiliar;
         tamanho--;
     }
 }
 
 template <typename T>
-void Pilha<T>::top(){
+T Pilha<T>::top(){
     if(isEmpty()){
         cout << "Pilha vazia." << endl;
     }
     else{
         cout << "Elemento no topo: " << topo->getValor() << endl;
-                return topo->getValor();
+        return topo->getValor();
     }
 }
 
 template <typename T>
-bool Pilha<T>::Find(){
+bool Pilha<T>::Find(const T& object){
     if(isEmpty()){
         return false;
     }
@@ -101,4 +109,3 @@ bool Pilha<T>::isEmpty(){
     return tamanho == 0;
 }
 
-template <typename T>
