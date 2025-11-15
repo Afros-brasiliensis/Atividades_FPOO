@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/Users/ResTIC55/Documents/Atividades_FPOO/Grau_B/Aula_1/testes_em_aula/exercicio_4_lista1_comTemplate",
+      "program": "c:/Users/ResTIC55/Documents/Atividades_FPOO/Grau_B/Aula_1/testes_em_aula/exercicio_4_lista1_comTemplate/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}
