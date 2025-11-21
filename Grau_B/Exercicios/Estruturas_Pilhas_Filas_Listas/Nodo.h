@@ -1,30 +1,30 @@
 template <typename T>
 class Nodo{
 private:
-    T valor;
+    T tamanho;
     Nodo<T>* proximo;
     Nodo<T>* anterior;
 
 public:
 
-    Nodo(T valor);//Construtor com parametros
+    Nodo(T tamanho);//Construtor com parametros
 
     ~Nodo();//Destrutor
 
 
     void setAnterior(Nodo<T>* nodoAnterior);//Seta o nodo anterior(que pega informacao de tras)
-    Nodo<T>* getAnterior();//Pega o valor do nodo anterior
+    Nodo<T>* getAnterior();//Pega o tamanho do nodo anterior
     
     void setProximo(Nodo<T>* proximoNodo);//Seta o proximo nodo(que pega informacao da frente)
-    Nodo<T>* getProximo();//Pega o valor do proximo nodo
+    Nodo<T>* getProximo();//Pega o tamanho do proximo nodo
 
-    T getValor();
+    const T& getValor() const;
 
 };
 
 template <typename T>
-Nodo<T>::Nodo(T valor){
-    this->valor = valor;
+Nodo<T>::Nodo(T tamanho){
+    this->tamanho = tamanho;
     this->proximo = nullptr;
     this->anterior = nullptr;
 }
@@ -51,6 +51,6 @@ Nodo<T>* Nodo<T>::getAnterior(){
 }
 
 template <typename T>
-T Nodo<T>::getValor(){
-    return this->valor;
+const T& Nodo<T>::getValor() const{
+    return this->tamanho;
 }

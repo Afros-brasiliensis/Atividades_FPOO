@@ -7,7 +7,7 @@ class Pilha{
     private:
         Nodo<T>* topo;
         Nodo<T>* base;
-        int tamanho;
+        T tamanho;
 
     public: 
         Pilha();//Construtor
@@ -48,7 +48,7 @@ void Pilha<T>::push(const T& object){
         topo->setProximo(novoNodo);
         topo = novoNodo;
     }
-
+    tamanho++;
 }
 
 template <typename T>
@@ -75,9 +75,9 @@ template <typename T>
 T Pilha<T>::top(){
     if(isEmpty()){
         cout << "Pilha vazia." << endl;
+        return T();
     }
     else{
-        cout << "Elemento no topo: " << topo->getValor() << endl;
         return topo->getValor();
     }
 }
