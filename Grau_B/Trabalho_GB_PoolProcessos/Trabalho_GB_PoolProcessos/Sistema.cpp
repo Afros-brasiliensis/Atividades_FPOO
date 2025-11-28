@@ -88,7 +88,7 @@ void Sistema::salvarFila(const std::string& nomeArquivo)
     std::ofstream arquivo(nomeArquivo);
 
     if (!arquivo.is_open()) {
-        std::cout << "Erro ao abrir o arquivo para salvar a fila.\n";
+        std::cout << "Erro ao abrir arquivo " << nomeArquivo << " para escrita.\n";
         return;
     }
 
@@ -98,95 +98,92 @@ void Sistema::salvarFila(const std::string& nomeArquivo)
         return;
     }
 
-    int tamanhoOriginal = fila.getTamanho();
-    int contador = 0;
+    Fila<Process*> auxiliar;
 
-    while (contador < tamanhoOriginal)
-    {
-        Process* p = fila.front();  
-        fila.pop();                  
+    while (!fila.isEmpty()) {
+        Process* p = fila.front();
+        fila.pop();
 
         int tipo = p->getTipo();
         int pid = p->getPid();
 
-       
         arquivo << tipo << " " << pid;
 
         if (tipo == 1) {
-            ComputingProcess* cp = (ComputingProcess*)p;
-            arquivo << " " << cp->getExpression();
+            ComputingProcess* cp = dynamic_cast<ComputingProcess*>(p);
+            if (cp) {
+                arquivo << " " << cp->getExpression();
+            }
         }
         else if (tipo == 2) {
-            WritingProcess* wp = (WritingProcess*)p;
-            arquivo << " " << wp->getExpression();
+            WritingProcess* wp = dynamic_cast<WritingProcess*>(p);
+            if (wp) {
+                arquivo << " " << wp->getExpression();
+            }
         }
 
         arquivo << "\n";
-
-        fila.push(p);
-
-        contador++;
+        auxiliar.push(p);
     }
 
-    arquivo.close();
+    while (!auxiliar.isEmpty()) {
+        Process* p = auxiliar.front();
+        auxiliar.pop();
+        fila.push(p);
+    }
 
-    std::cout << "Fila salva com sucesso em " << nomeArquivo << ".\n";
+    std::cout << "Fila salva em " << nomeArquivo << ".\n";
 }
-
 void Sistema::carregarFila(const std::string& nomeArquivo)
 {
     std::ifstream arquivo(nomeArquivo);
 
     if (!arquivo.is_open()) {
-        std::cout << "Erro ao abrir o arquivo para carregar a fila.\n";
+        std::cout << "Erro ao abrir arquivo " << nomeArquivo << " para leitura.\n";
         return;
     }
 
-   
-    while (!fila.isEmpty()) {
-        Process* p = fila.front();
-        fila.pop();
-        delete p;
-    }
+    limparFila();
 
-    int tipo;
-    int pid;
-    std::string expr;
+    std::string linha;
 
- 
-    while (arquivo >> tipo >> pid)
-    {
+    while (std::getline(arquivo, linha)) {
+        if (linha.empty())
+            continue;
+
+        std::istringstream iss(linha);
+        int tipo, pid;
+        iss >> tipo >> pid;
+
+        std::string expr;
+        std::getline(iss, expr); 
+
+       
+        if (!expr.empty() && expr[0] == ' ')
+            expr.erase(0, 1);
+
+        Process* p = nullptr;
+
         if (tipo == 1) {
-          
-            arquivo >> expr;
-            Process* p = new ComputingProcess(pid, expr);
-            fila.push(p);
+            p = new ComputingProcess(pid, expr);
         }
         else if (tipo == 2) {
-           
-            arquivo >> expr;
-            Process* p = new WritingProcess(pid, expr);
-            fila.push(p);
+            p = new WritingProcess(pid, expr);
         }
         else if (tipo == 3) {
-            
-            Process* p = new ReadingProcess(pid, &fila);
-            fila.push(p);
+            p = new ReadingProcess(pid, &fila);
         }
-        else if (tipo == 4) {
-      
-            Process* p = new PrintingProcess(pid, &fila);
-            fila.push(p);
+        else if (tipo == 4) { 
+            p = new PrintingProcess(pid, &fila);
         }
         else {
-            std::cout << "Tipo de processo invalido encontrado no arquivo: "
-                << tipo << "\n";
-          
-            std::getline(arquivo, expr);
+            std::cout << "Tipo de processo invalido no arquivo: " << tipo << "\n";
+        }
+
+        if (p != nullptr) {
+            fila.push(p);
         }
     }
-
-    arquivo.close();
 
     std::cout << "Fila carregada com sucesso de " << nomeArquivo << ".\n";
 }
